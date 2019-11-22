@@ -1,0 +1,59 @@
+{
+  "name": "spotifyapiclone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.3.3",
+    "mongoose": "^5.7.7",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.17.1",
+    "@types/express": "^4.17.1",
+    "@types/mongodb": "^3.3.3",
+    "@types/mongoose": "latest",
+    "@types/node": "^12.12.0",
+    "@types/passport": "latest",
+    "@types/passport-local": "latest",
+    "@types/bcryptjs": "latest",
+    "@types/jsonwebtoken": "latest",
+    "nodemon": "^1.19.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.0",
+    "ts-node-dev": "^1.0.0-pre.43",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "tsc": "tsc",
+    "build": "npm-run-all clean lint tsc",
+    "dev-deb": "ts-node-dev --respawn --transpileOnly --nolazy --inspect-brk=5858 ./src/server.ts",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
+    "prod": "npm-run-all build start",
+    "prod-deb": "npm-run-all start-deb",
+    "start": "nodemon --nolazy ./dist/server.js",
+    "start-deb": "nodemon --nolazy --inspect-brk=5858 ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylermonty/SpotifyAPIClone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tylermonty/SpotifyAPIClone/issues"
+  },
+  "homepage": "https://github.com/tylermonty/SpotifyAPIClone#readme"
+}
