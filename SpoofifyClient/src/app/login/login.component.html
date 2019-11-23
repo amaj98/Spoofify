@@ -1,5 +1,4 @@
 <div class="container">
-    <h1>Spoofify</h1>
     <form (ngSubmit) = "onSubmit()">
         <div class="form-group">
           <label for="email">Email address</label>
@@ -9,7 +8,10 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Password" required [(ngModel)] = "password" name = "password">
         </div>
+        <div class="alert alert-danger" role="alert" *ngIf = "errmsg">
+          {{errmsg}}
+        </div>
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
-    <h1>{{logininfo}}</h1>
+
 </div>
