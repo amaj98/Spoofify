@@ -1,5 +1,5 @@
 <div class="container">
-    <form (ngSubmit) = "onSubmit()">
+    <form (ngSubmit)="onSubmit(buttonType)">
         <div class="form-group">
           <label for="email">Email address</label>
           <input type="email" class="form-control" id="email" placeholder="Enter email" required [(ngModel)] = "email" name = "email">
@@ -11,7 +11,7 @@
         <div class="alert alert-danger" role="alert" *ngIf = "errmsg">
           {{errmsg}}
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button class = button type="button" (click)="onSubmit('register')">Register</button>
+        <button class = button type="button" (click)="onSubmit('login')">Log In Here</button>
       </form>
-
 </div>

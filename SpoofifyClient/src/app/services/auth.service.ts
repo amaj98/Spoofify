@@ -19,4 +19,11 @@ export class AuthService {
       return JSON.stringify(res);
     } ));
   }
+
+  register(email,password,username){
+    return this.http.post(this.apiUrl,{email,password,username}).pipe(map(res =>{
+      this.user = res;
+      return JSON.stringify(res);
+    } ));
+  }
 }

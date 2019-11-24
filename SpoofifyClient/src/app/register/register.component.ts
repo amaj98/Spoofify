@@ -3,23 +3,23 @@ import { AuthService } from '../services/auth.service';
 import { FormGroup } from '@angular/forms'
 import { Router } from '@angular/router'
 
+
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-
-
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   errmsg: string;
   email: string;
   password: string;
+  username: string
   
   constructor(private authService: AuthService, private router: Router){}
 
-  login(email:string, password:string){
-     return this.authService.login(email,password).subscribe(res=>{
+  register(email:string, password:string, username: string){
+     return this.authService.register(email,password,username).subscribe(res=>{
       let user = JSON.parse(res);
       if(user.message) this.errmsg = user.message
       else this.router.navigate(['/'])});
@@ -27,13 +27,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit(buttonType): void {
     if(buttonType==="login") {
-      this.login(this.email,this.password);
+      this.router.navigate(['/login'])
     }
     if(buttonType==="register"){
-        this.router.navigate(['/register'])
+        this.register(this.email,this.password,this.username)
     }
+  }
 
-}
   ngOnInit() {
   }
 
