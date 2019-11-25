@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     this.login(this.email,this.password);
   }
+  goRegister(){
+    this.router.navigate(['/register'])
+  }
   ngOnInit() {
   }
 
