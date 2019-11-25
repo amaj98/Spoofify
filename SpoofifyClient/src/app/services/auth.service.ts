@@ -8,7 +8,9 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   apiUrl: string = 'http://localhost:3000/api/user/';
   public user; 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+    this.user = JSON.parse(localStorage.getItem('user'));
+   }
 
   public get currentUser(){return this.user;}
   
