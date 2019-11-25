@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
       this.authService.register(this.email,this.password,this.username).subscribe(res=>{
         let user = JSON.parse(res);
         if(user.message) this.errmsg = user.message
-        else this.router.navigate(['/'])});
+        else this.router.navigate(['/login'])});
     }
     else this.errmsg = "Passwords do not match";
   }
