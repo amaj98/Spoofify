@@ -18,16 +18,13 @@ export class LoginComponent implements OnInit {
   
   constructor(private authService: AuthService, private router: Router){}
 
-  login(email:string, password:string){
-     return this.authService.login(email,password).subscribe(res=>{
+  login(){
+     this.authService.login(this.email,this.password).subscribe(res=>{
       let user = JSON.parse(res);
       if(user.message) this.errmsg = user.message
       else this.router.navigate(['/'])});
   }
 
-  onSubmit(){
-    this.login(this.email,this.password);
-  }
   goRegister(){
     this.router.navigate(['/register'])
   }
