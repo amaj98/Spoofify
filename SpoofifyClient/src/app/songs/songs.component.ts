@@ -21,6 +21,7 @@ export class SongsComponent implements OnInit {
   
   songApiUrl: string = 'http://localhost:3000/api/song/';
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
+  albumApiUrl: string = 'http://localhost:3000/api/album/'
   songs : any[]
 
   constructor(private router: Router, private http:HttpClient){}
@@ -32,6 +33,9 @@ export class SongsComponent implements OnInit {
       for (let s of this.songs){ //loop through all songs
         this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
           s.artist = JSON.parse(JSON.stringify(res)).name
+        })
+        this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
+          s.album = JSON.parse(JSON.stringify(res)).title
         })
         if(s.features.length != 0){ //check if songs has features
           for (let f of s.features){ //loop through all features
