@@ -4,14 +4,33 @@
             <button type="button" (click) = "goHome()" class="btn btn-warning">Home</button>
         </div>
     </div>
-    <ul>
+    <!-- <ul>
         <li *ngFor="let song of songs">
             <p *ngIf="song.features.length!=0; else nofeatures">
                 {{song.title}}, {{song.album}}, {{song.artist}}, {{song.features}}, {{song.duration}}, {{song.plays}}
             </p>
-            <ng-template #nofeatures>
+            <ng-template #nofeatures>                   
                 {{song.title}}, {{song.album}}, {{song.artist}}, {{song.duration}}, {{song.plays}}
             </ng-template>
         </li>
-    </ul>
+    </ul> -->
+
+    <table style="width:100%" >
+            <tr>
+              <th>Song Title</th>
+              <th>Album</th>
+              <th>Artist</th>
+              <th>Features</th>
+              <th>Song Duration</th>
+              <th>Number of Plays</th>
+            </tr>
+            <tr *ngFor="let song of songs" >
+              <td>{{song.title}}</td>
+              <td>{{song.album}}</td>
+              <td>{{song.artist}}</td>
+              <td>{{song.features}}</td>
+              <td>{{song.duration}}</td>
+              <td>{{song.plays}}</td>
+            </tr>
+          </table>
 </div>
