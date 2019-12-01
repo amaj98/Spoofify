@@ -37,18 +37,25 @@ export class SongsComponent implements OnInit {
         this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
           s.album = JSON.parse(JSON.stringify(res)).title
         })
+        console.log(s.title)
         if(s.features.length != 0){ //check if songs has features
-          for (let f of s.features){ //loop through all features
-            let features_names: string[] = []
-            this.http.get(this.artistApiUrl+f).subscribe(res =>{ //change feature ID to feature name
-              features_names.push(JSON.parse(JSON.stringify(res)).name)
-            })
-            s.features = features_names
+          let features_names: string[] = []
+          for(let f of s.features){
+            this.formatFeature(f, s, features_names)
           }
         }
+
       }
       return this.songs;
     } );
+  }
+
+  formatFeature(feature: string, s: any, features_names: string[]){
+    this.http.get(this.artistApiUrl+feature).subscribe(res =>{ //change feature ID to feature name
+      features_names.push(JSON.parse(JSON.stringify(res)).name)
+      s.features = features_names
+      return features_names
+    })   
   }
 
   goHome(){

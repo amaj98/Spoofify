@@ -4,7 +4,7 @@
             <button type="button" (click) = "goHome()" class="btn btn-warning">Home</button>
         </div>
     </div>
-    <!-- <ul>
+    <!--<ul>
         <li *ngFor="let song of songs">
             <p *ngIf="song.features.length!=0; else nofeatures">
                 {{song.title}}, {{song.album}}, {{song.artist}}, {{song.features}}, {{song.duration}}, {{song.plays}}
@@ -23,6 +23,7 @@
               <th>Features</th>
               <th>Song Duration</th>
               <th>Number of Plays</th>
+              <th>Add to Saved Songs</th>
             </tr>
             <tr *ngFor="let song of songs" >
               <td>{{song.title}}</td>
@@ -31,6 +32,11 @@
               <td>{{song.features}}</td>
               <td>{{song.duration}}</td>
               <td>{{song.plays}}</td>
+              <td>
+                <div class = "col text-center">
+                    <button type="button" (click) = "goHome()" class="btn btn-warning">+</button>
+                </div>
+              </td>
             </tr>
           </table>
 </div>
