@@ -41,25 +41,22 @@ export class SongsComponent implements OnInit {
         if(s.features.length != 0){ //check if songs has features
           let features_names: string[] = []
           for(let f of s.features){
-            this.formatFeature(f, s, features_names)
+            features_names = this.formatFeature(f, s, features_names)
           }
-        }
 
+        }
       }
       return this.songs;
     } );
   }
 
   formatFeature(feature: string, s: any, features_names: string[]){
+    console.log(features_names)
     this.http.get(this.artistApiUrl+feature).subscribe(res =>{ //change feature ID to feature name
       features_names.push(JSON.parse(JSON.stringify(res)).name)
       s.features = features_names
-      return features_names
-    })   
-  }
-
-  goHome(){
-    this.router.navigate(['/'])
+    })
+    return features_names
   }
 
   ngOnInit() {

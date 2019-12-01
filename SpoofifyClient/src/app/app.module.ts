@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component'
 import { SongsComponent } from './songs/songs.component';
+import { AlbumsComponent } from './albums/albums.component';
+import { ArtistsComponent } from './artists/artists.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { SongsComponent } from './songs/songs.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    SongsComponent
+    SongsComponent,
+    AlbumsComponent,
+    ArtistsComponent
   ],
   imports: [
     BrowserModule,

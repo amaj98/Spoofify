@@ -1,0 +1,21 @@
+<div class = "col text-center">
+
+    <table style="width:100%" >
+            <tr>
+              <th>Album Name</th>
+              <th>Artist</th>
+              <th>Genre</th>
+              <th>Add to Saved Albums</th>
+            </tr>
+            <tr *ngFor="let album of albums" >
+              <td>{{album.title}}</td>
+              <td>{{album.artist}}</td>
+              <td>{{album.genre}}</td>
+              <td>
+                <div class = "col text-center">
+                    <button type="button" (click) = "goHome()" class="btn btn-warning">+</button>
+                </div>
+              </td>
+            </tr>
+          </table>
+</div>

@@ -14,10 +14,6 @@ export class HomeComponent implements OnInit {
   
   constructor(private authService: AuthService, private router: Router){}
 
-  goSongs(){
-    this.router.navigate(['/songs'])
-  }
-
   ngOnInit() {
     
   }

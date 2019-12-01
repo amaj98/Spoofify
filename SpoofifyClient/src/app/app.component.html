@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="authService.currentUser">
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/">Home</a>
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
@@ -7,9 +7,23 @@
 
 <div class="jumbotron">
     <div class="container">
-        <div class="row">
+        <div class="row text-center">
             <div class="col-sm-6 offset-sm-3">
                 <h1>{{title}}</h1>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col text-center">
+                <button type="button" (click) = "goHome()" class="btn btn-warning">Home</button>
+            </div>
+            <div class = "col text-center">
+                <button type="button" (click) = "goSongs()" class="btn btn-warning">Songs</button>
+            </div>
+            <div class = "col text-center">
+                <button type="button" (click) = "goAlbums()" class="btn btn-warning">Albums</button>
+            </div>
+            <div class = "col text-center">
+                <button type="button" (click) = "goArtists()" class="btn btn-warning">Artists</button>
             </div>
         </div>
     </div>

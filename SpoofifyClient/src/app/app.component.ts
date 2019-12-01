@@ -14,5 +14,21 @@ export class AppComponent {
   constructor(private router: Router,private authService: AuthService){
     if(!this.authService.currentUser) this.router.navigate(['/login']);
   }
+
+  goSongs(){
+    this.router.navigate(['/songs'])
+  }
+
+  goAlbums(){
+    this.router.navigate(['/albums'])
+  }
+
+  goArtists(){
+    this.router.navigate(['/artists'])
+  }
+
+  goHome(){
+    this.router.navigate(['/'])
+  }
 }
 
