@@ -14,10 +14,13 @@
               <td>{{artist.followers}}</td>
               <td>{{artist.similarArtists}}</td>
               <td>
-                <div class = "col text-center">
-                    <button type="button" (click) = "goHome()" class="btn btn-warning">+</button>
+                <div class = "col text-center" *ngIf="!authService.currentUser; else loggedIn">
+                    <button type="button" (click) = "notLoggedIn()" class="btn btn-warning">+</button>
                 </div>
               </td>
             </tr>
           </table>
 </div>
+<ng-template #loggedIn>
+    <button type="button" (click) = "saveArtist()" class="btn btn-warning">+</button>
+</ng-template>

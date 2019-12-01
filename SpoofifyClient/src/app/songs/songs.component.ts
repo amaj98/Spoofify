@@ -24,7 +24,7 @@ export class SongsComponent implements OnInit {
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   songs : any[]
 
-  constructor(private router: Router, private http:HttpClient){}
+  constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getSongs(){
     return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
@@ -54,6 +54,16 @@ export class SongsComponent implements OnInit {
       s.features = features_names
     })
     return features_names
+  }
+
+  notLoggedIn(){
+    if (window.confirm("You must be logged in to save a song. Press OK to login/register.")){
+      this.router.navigate(['/login'])
+    }
+  }
+
+  saveSong(){
+    //todo
   }
 
   ngOnInit() {

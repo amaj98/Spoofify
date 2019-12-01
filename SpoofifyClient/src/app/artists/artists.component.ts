@@ -22,7 +22,7 @@ export class ArtistsComponent implements OnInit {
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
   artists : any[]
 
-  constructor(private router: Router, private http:HttpClient){}
+  constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getArtists(){
     return this.http.get(this.artistApiUrl).subscribe(res =>{ //get all artists
@@ -35,6 +35,12 @@ export class ArtistsComponent implements OnInit {
       }
       return this.artists;
     } );
+  }
+
+  notLoggedIn(){
+    if (window.confirm("You must be logged in to save an artist. Press OK to login/register.")){
+      this.router.navigate(['/login'])
+    }
   }
 
   ngOnInit() {

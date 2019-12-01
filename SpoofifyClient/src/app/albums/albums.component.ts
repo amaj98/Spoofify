@@ -23,7 +23,7 @@ export class AlbumsComponent implements OnInit {
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   albums : any[]
 
-  constructor(private router: Router, private http:HttpClient){}
+  constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getAlbums(){
     return this.http.get(this.albumApiUrl).subscribe(res =>{ //get all albums
@@ -36,6 +36,12 @@ export class AlbumsComponent implements OnInit {
       }
       return this.albums;
     } );
+  }
+
+  notLoggedIn(){
+    if (window.confirm("You must be logged in to save an album. Press OK to login/register.")){
+      this.router.navigate(['/login'])
+    }
   }
 
   ngOnInit() {
