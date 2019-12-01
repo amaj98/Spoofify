@@ -1,3 +1,17 @@
 <div class="container">
-    
+    <div class="row" *ngIf="!authService.currentUser; else loggedIn">
+        <div class = "col text-center">
+            <div class="loginText">
+                You are not logged in. You can login or register using the button below!
+            </div>
+            <button type="button" (click) = "goLogin()" class="btn btn-warning">Login/Register</button>
+        </div>
+    </div>
+    <ng-template #loggedIn>
+        <div class="row" *ngIf="authService.currentUser; else loggedIn">
+            <div class = "col text-center">
+                
+            </div>
+        </div>
+    </ng-template>
 </div>
