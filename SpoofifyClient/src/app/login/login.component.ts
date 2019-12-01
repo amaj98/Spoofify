@@ -20,15 +20,22 @@ export class LoginComponent implements OnInit {
 
   login(){
      this.authService.login(this.email,this.password).subscribe(res=>{
-      let user = JSON.parse(res);
-      if(user.message) this.errmsg = user.message
-      else this.router.navigate(['/'])});
+      //let user = JSON.parse(res);
+      if(JSON.parse(res).message){
+        this.errmsg = JSON.parse(res).message
+      } 
+      else {
+        let user = JSON.parse(res)
+        this.router.navigate(['/'])
+      }});
+      console.log(localStorage.getItem('user'))
   }
 
   goRegister(){
     this.router.navigate(['/register'])
   }
   ngOnInit() {
+
   }
 
 }

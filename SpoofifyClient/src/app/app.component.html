@@ -1,9 +1,16 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="authService.currentUser">
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="authService.currentUser; else loggedIn">
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/">Home</a>
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
     </div>
 </nav>
+<ng-template #loggedIn>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" routerLink="/login">Login/Register</a>
+        </div>
+    </nav>
+</ng-template>
 
 <div class="jumbotron">
     <div class="container">

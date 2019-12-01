@@ -28,7 +28,6 @@ export class SongsComponent implements OnInit {
 
   getSongs(){
     return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
-      console.log(JSON.stringify(res))
       this.songs = JSON.parse(JSON.stringify(res))
       for (let s of this.songs){ //loop through all songs
         this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
@@ -37,7 +36,6 @@ export class SongsComponent implements OnInit {
         this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
           s.album = JSON.parse(JSON.stringify(res)).title
         })
-        console.log(s.title)
         if(s.features.length != 0){ //check if songs has features
           let features_names: string[] = []
           for(let f of s.features){
@@ -51,7 +49,6 @@ export class SongsComponent implements OnInit {
   }
 
   formatFeature(feature: string, s: any, features_names: string[]){
-    console.log(features_names)
     this.http.get(this.artistApiUrl+feature).subscribe(res =>{ //change feature ID to feature name
       features_names.push(JSON.parse(JSON.stringify(res)).name)
       s.features = features_names

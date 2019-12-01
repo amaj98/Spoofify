@@ -27,6 +27,11 @@ export class AppComponent {
     this.router.navigate(['/artists'])
   }
 
+  logout(){
+    this.authService.user = null
+    localStorage.setItem('user',null);
+  }
+
   goHome(){
     this.router.navigate(['/'])
   }

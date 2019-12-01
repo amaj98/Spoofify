@@ -16,8 +16,10 @@ export class AuthService {
   
   login(email,password){
     return this.http.post(this.apiUrl+'login',{email,password}).pipe(map(res =>{
-      this.user = res;
-      localStorage.setItem('user',JSON.stringify(res));
+      if (!JSON.parse(JSON.stringify(res)).message){
+        localStorage.setItem('user',JSON.stringify(res));
+        this.user = res;
+      }
       return JSON.stringify(res);
     } ));
   }
