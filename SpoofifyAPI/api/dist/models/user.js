@@ -10,7 +10,11 @@ exports.UserSchema = new Schema({
     email: { type: String, required: "email", unique: true },
     info: { firstName: { type: String }, lastName: { type: String }, age: { type: Number } },
     password: { type: String, required: "password" },
-    user: { type: String, required: "user name", unique: true }
+    saved_albums: [String],
+    saved_artists: [String],
+    saved_playlists: [String],
+    saved_songs: [String],
+    user: { type: String, required: "user name", unique: true },
 });
 exports.UserSchema.pre("save", function (next) {
     const user = this;

@@ -19,6 +19,7 @@ import { Router } from '@angular/router'
 
 export class ArtistsComponent implements OnInit {
   
+  userApiUrl: string = 'http://localhost:3000/api/user/'
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
   artists : any[]
 
@@ -35,6 +36,13 @@ export class ArtistsComponent implements OnInit {
       }
       return this.artists;
     } );
+  }
+
+  saveArtist(id) {
+    window.alert(id)
+    this.http.get(this.userApiUrl+this.authService.currentUser.user._id).subscribe(res => {
+        JSON.parse(JSON.stringify(res)).saved_artists.push(id);
+    });
   }
 
   notLoggedIn(){
