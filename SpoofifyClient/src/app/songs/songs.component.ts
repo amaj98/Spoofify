@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router'
+import { } from 'jquery'
 
 @Component({
   selector: 'app-songs',
@@ -22,7 +23,9 @@ export class SongsComponent implements OnInit {
   songApiUrl: string = 'http://localhost:3000/api/song/';
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
   albumApiUrl: string = 'http://localhost:3000/api/album/'
+  userApiUrl: string = 'http://localhost:3000/api/user/'
   songs : any[]
+  savedSongs : any[]
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
@@ -62,8 +65,19 @@ export class SongsComponent implements OnInit {
     }
   }
 
-  saveSong(){
-    //todo
+  saveSong(s : string){     
+    let userID : string = this.authService.currentUser.user._id
+    let currentSaved : string[] = []
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+      currentSaved = JSON.parse(JSON.stringify(res)).saved_songs
+      currentSaved.push(s)
+      return this.http.put(this.userApiUrl+userID, {
+        "saved_songs": currentSaved
+      }).subscribe(res => {
+        console.log(JSON.parse(JSON.stringify(res)))
+      })
+    })
+    
   }
 
   ngOnInit() {

@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="authService.currentUser; else loggedIn">
     <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/">Home</a>
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
     </div>
 </nav>

@@ -1,6 +1,6 @@
 <div class = "col text-center">
 
-    <table style="width:100%" >
+    <table id="songTable" style="width:100%" >
             <tr>
               <th>Song Title</th>
               <th>Album</th>
@@ -18,13 +18,13 @@
               <td>{{song.duration}}</td>
               <td>{{song.plays}}</td>
               <td>
-                <div class = "col text-center" *ngIf="!authService.currentUser; else loggedIn">
-                    <button type="button" (click) = "notLoggedIn()" class="btn btn-warning">+</button>
+                <div class = "col text-center" *ngIf="authService.currentUser; else loggedIn">
+                    <button type="button" (click) = "saveSong(song._id)" class="btn btn-warning">+</button>
                 </div>
               </td>
             </tr>
           </table>
 </div>
 <ng-template #loggedIn>
-    <button type="button" (click) = "saveSong()" class="btn btn-warning">+</button>
+    <button type="button" (click) = "notLoggedIn()" class="btn btn-warning">+</button>
 </ng-template>
