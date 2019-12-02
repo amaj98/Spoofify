@@ -26,29 +26,34 @@ export class SongsComponent implements OnInit {
   userApiUrl: string = 'http://localhost:3000/api/user/'
   songs : any[]
   savedSongs : any[]
+  currentSaved : string[] = []
+
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getSongs(){
-    return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
-      this.songs = JSON.parse(JSON.stringify(res))
-      for (let s of this.songs){ //loop through all songs
-        this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
-          s.artist = JSON.parse(JSON.stringify(res)).name
-        })
-        this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
-          s.album = JSON.parse(JSON.stringify(res)).title
-        })
-        if(s.features.length != 0){ //check if songs has features
-          let features_names: string[] = []
-          for(let f of s.features){
-            features_names = this.formatFeature(f, s, features_names)
+    let userID : string = this.authService.currentUser.user._id
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+      this.currentSaved = JSON.parse(JSON.stringify(res)).saved_songs
+      return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
+        this.songs = JSON.parse(JSON.stringify(res))
+        for (let s of this.songs){ //loop through all songs
+          this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
+            s.artist = JSON.parse(JSON.stringify(res)).name
+          })
+          this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
+            s.album = JSON.parse(JSON.stringify(res)).title
+          })
+          if(s.features.length != 0){ //check if songs has features
+            let features_names: string[] = []
+            for(let f of s.features){
+              features_names = this.formatFeature(f, s, features_names)
+            }
           }
-
         }
-      }
-      return this.songs;
-    } );
+      } );
+    })
+    
   }
 
   formatFeature(feature: string, s: any, features_names: string[]){
@@ -75,9 +80,28 @@ export class SongsComponent implements OnInit {
         "saved_songs": currentSaved
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
+        this.getSongs()
       })
     })
-    
+  }
+
+  removeSong(s : string){
+    let userID : string = this.authService.currentUser.user._id
+    let currentSaved : string[] = []
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+      currentSaved = JSON.parse(JSON.stringify(res)).saved_songs
+      for( var i = 0; i < currentSaved.length; i++){ 
+        if ( currentSaved[i] === s) {
+          currentSaved.splice(i, 1); 
+        }
+     }
+      return this.http.put(this.userApiUrl+userID, {
+        "saved_songs": currentSaved
+      }).subscribe(res => {
+        console.log(JSON.parse(JSON.stringify(res)))
+        this.getSongs()
+      })
+    })
   }
 
   ngOnInit() {
