@@ -68,6 +68,7 @@ export class SongsComponent implements OnInit {
               features_names = this.formatFeature(f, s, features_names)
             }
           }
+          s.duration = this.formatDuration(s.duration)
         }
       } );
     }

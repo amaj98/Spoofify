@@ -5,18 +5,22 @@
               <th>Playlist Name</th>
               <th>Creator</th>
               <th>Followers</th>
-              <th>Add to Saved Playlists</th>
+              <th>Songs in Playlist</th>
+              <th>Add to Saved Albums</th>
             </tr>
-            <tr *ngFor="let p of playlists" >
-              <td>
-                <button type="button" (click)="goPlaylist(p._id)" class="btn btn-warning">{{p.title}}</button>
+            <tr *ngIf="playlist">
+              <td>{{playlist.title}}</td>
+              <td>{{playlist.creator}}</td>
+              <td>{{playlist.followers}}</td>
+              <td >
+                <ul *ngFor="let song of playlist.songs">
+                  {{song}}
+                </ul>
               </td>
-              <td>{{p.creator}}</td>
-              <td>{{p.followers}}</td>
               <td>
                   <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
-                    <ng-container *ngIf="!savedPlaylists.includes(p._id); else disableButton">
-                      <button type="button" (click) = "savePlaylist(p._id)" class="btn btn-warning">+</button>
+                    <ng-container *ngIf="!savedPlaylists.includes(playlist._id); else disableButton">
+                      <button type="button" (click) = "savePlaylist(playlist._id)" class="btn btn-warning">+</button>
                     </ng-container>
                   </div>
                 </td>
@@ -24,7 +28,7 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removePlaylist(p._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removePlaylist(playlist._id)" class="btn btn_warning">✔</button>
                 </ng-template>
             </tr>
           </table>

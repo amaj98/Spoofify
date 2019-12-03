@@ -1,0 +1,21 @@
+table{
+    border: 1px solid black;
+    width: 100%;
+}
+
+th {
+  height: 50px;
+  background: green;
+  color: white;
+}
+
+td {
+  height: 50px;
+  color: green;
+  background: lightgray;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}

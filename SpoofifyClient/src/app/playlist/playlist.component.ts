@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'app-playlists',
-  templateUrl: './playlists.component.html',
-  styleUrls: ['./playlists.component.scss']
+  selector: 'app-playlist',
+  templateUrl: './playlist.component.html',
+  styleUrls: ['./playlist.component.scss']
 })
 
 @Injectable({
@@ -15,44 +15,45 @@ import { Router } from '@angular/router'
 })
 
 
-export class PlaylistsComponent implements OnInit {
+export class PlaylistComponent implements OnInit {
   
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   userApiUrl: string = 'http://localhost:3000/api/user/'
   playlistApiUrl : string = 'http://localhost:3000/api/playlist/'
-  playlists : any[]
+  songApiUrl : string = 'http://localhost:3000/api/song/'
+  playlist : any
   savedPlaylists : string[] = []
+  song_names: string[] = []
+
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
-  getPlaylists(){
-    if (this.authService.currentUser){
-      let userID : string = this.authService.currentUser.user._id
-      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for user
-        this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
-        return this.http.get(this.playlistApiUrl).subscribe(res =>{ //get all playlists
-          console.log(JSON.stringify(res))
-          this.playlists = JSON.parse(JSON.stringify(res))
-          for (let p of this.playlists){ //loop through all playlists
-            this.http.get(this.userApiUrl+p.creator).subscribe(res =>{ //change user ID to artist user
-              p.creator = JSON.parse(JSON.stringify(res)).user
-            })
-          }
-        } );
-      });
-    }
-    else{
-      return this.http.get(this.playlistApiUrl).subscribe(res =>{ //get all playlists
+  getPlaylist(refresh : boolean){
+    let playlist_id : string = this.router.url.split('/')[2]
+      return this.http.get(this.playlistApiUrl+playlist_id).subscribe(res =>{ //get playlist
         console.log(JSON.stringify(res))
-        this.playlists = JSON.parse(JSON.stringify(res))
-        for (let p of this.playlists){ //loop through all playlists
-          this.http.get(this.userApiUrl+p.creator).subscribe(res =>{ //change user ID to user name
-            p.creator = JSON.parse(JSON.stringify(res)).user
-          })
-        }
-      } );
-    }
+        this.playlist = JSON.parse(JSON.stringify(res))
+        this.http.get(this.userApiUrl+this.playlist.creator).subscribe(res =>{ //change user ID to user name
+          this.playlist.creator = JSON.parse(JSON.stringify(res)).user
+          if(this.playlist.songs.length != 0 && !refresh){ //check if playlist has songs
+            for(let s of this.playlist.songs){ //format songs to display titles
+              this.formatSong(s)
+            }
+          }
+          else{ //if refreshing, dont re-fetch song titles
+            this.playlist.songs = this.song_names
+          }
+        })
+      });
+  }
+
+  formatSong(song: string){
+    return this.http.get(this.songApiUrl+song).subscribe(res =>{ //change song ID to song name
+      this.playlist.songs = this.song_names.concat(JSON.parse(JSON.stringify(res)).title)
+      this.song_names.push(JSON.parse(JSON.stringify(res)).title)
+    })
+
   }
 
   savePlaylist(p : string){     
@@ -64,7 +65,7 @@ export class PlaylistsComponent implements OnInit {
         "saved_playlists": this.savedPlaylists
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getPlaylists() //refresh to display changed buttons
+        this.getPlaylist(true) //refresh to display changed buttons
       })
     })
   }
@@ -82,7 +83,7 @@ export class PlaylistsComponent implements OnInit {
         "saved_playlists": this.savedPlaylists
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getPlaylists() //refresh to display changed buttons
+        this.getPlaylist(true) //refresh to display changed buttons
       })
     })
   }
@@ -93,12 +94,8 @@ export class PlaylistsComponent implements OnInit {
     }
   }
 
-  goPlaylist(p : string){
-    this.router.navigate(['/playlist/' + p])
-  }
-
   ngOnInit() {
-    this.getPlaylists()
+    this.getPlaylist(false)
   }
 
 }
