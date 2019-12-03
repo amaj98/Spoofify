@@ -27,6 +27,10 @@ export class AppComponent {
     this.router.navigate(['/artists'])
   }
 
+  goPlaylists(){
+    this.router.navigate(['/playlists'])
+  }
+
   logout(){
     this.authService.user = null
     localStorage.setItem('user',null);

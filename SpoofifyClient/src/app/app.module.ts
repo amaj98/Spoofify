@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component'
 import { SongsComponent } from './songs/songs.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { ArtistsComponent } from './artists/artists.component';
+import { PlaylistsComponent } from './playlists/playlists.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ArtistsComponent } from './artists/artists.component';
     HomeComponent,
     SongsComponent,
     AlbumsComponent,
-    ArtistsComponent
+    ArtistsComponent,
+    PlaylistsComponent
   ],
   imports: [
     BrowserModule,

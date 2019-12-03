@@ -1,0 +1,31 @@
+<div class = "col text-center">
+
+    <table style="width:100%" >
+            <tr>
+              <th>Playlist Name</th>
+              <th>Creator</th>
+              <th>Followers</th>
+              <th>Songs in Playlist</th>
+              <th>Add to Saved Albums</th>
+            </tr>
+            <tr *ngFor="let playlist of playlists" >
+              <td>{{playlist.title}}</td>
+              <td>{{playlist.creator}}</td>
+              <td>{{playlist.followers}}</td>
+              <td>{{playlist.songs}}</td>
+              <td>
+                  <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
+                    <ng-container *ngIf="!savedPlaylists.includes(playlist._id); else disableButton">
+                      <button type="button" (click) = "savePlaylist(playlist._id)" class="btn btn-warning">+</button>
+                    </ng-container>
+                  </div>
+                </td>
+                <ng-template #notLoggedIn>
+                    <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
+                </ng-template>
+                <ng-template #disableButton>
+                    <button type="button" (click) = "removePlaylist(playlist._id)" class="btn btn_warning">✔</button>
+                </ng-template>
+            </tr>
+          </table>
+</div>
