@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { FormGroup } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router'
-import { } from 'jquery'
 
 @Component({
   selector: 'app-songs',
@@ -34,7 +31,7 @@ export class SongsComponent implements OnInit {
     if (this.authService.currentUser){
       let userID : string = this.authService.currentUser.user._id
       this.http.get(this.userApiUrl+userID).subscribe(res =>{
-        this.savedSongs = JSON.parse(JSON.stringify(res)).saved_songs
+        this.savedSongs = JSON.parse(JSON.stringify(res)).saved_songs //get saved songs for a user
         return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
           this.songs = JSON.parse(JSON.stringify(res))
           for (let s of this.songs){ //loop through all songs
@@ -50,6 +47,7 @@ export class SongsComponent implements OnInit {
                 features_names = this.formatFeature(f, s, features_names)
               }
             }
+            s.duration = this.formatDuration(s.duration)
           }
         } );
       });
@@ -84,36 +82,49 @@ export class SongsComponent implements OnInit {
     return features_names
   }
 
+  formatDuration(d : number){
+    let hours : number = Math.trunc(d / 60)
+    d = d % 60
+    let minutes : number = d
+    let duration : string
+    if (minutes < 10){
+      duration = hours + ":0" + minutes
+    }
+    else{
+      duration = hours + ":" + minutes
+    }
+    
+    return duration
+  }
+
   saveSong(s : string){     
     let userID : string = this.authService.currentUser.user._id
-    //let savedSongs : string[] = []
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved songs for a user
       this.savedSongs = JSON.parse(JSON.stringify(res)).saved_songs
-      this.savedSongs.push(s)
-      return this.http.put(this.userApiUrl+userID, {
+      this.savedSongs.push(s) //add song to array
+      return this.http.put(this.userApiUrl+userID, { //update saved songs array for user
         "saved_songs": this.savedSongs
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getSongs()
+        this.getSongs() //refresh to display changed buttons
       })
     })
   }
 
   removeSong(s : string){
     let userID : string = this.authService.currentUser.user._id
-    //let savedSongs : string[] = []
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved songs for a user
       this.savedSongs = JSON.parse(JSON.stringify(res)).saved_songs
-      for( var i = 0; i < this.savedSongs.length; i++){ 
+      for( var i = 0; i < this.savedSongs.length; i++){ //remove song from array
         if ( this.savedSongs[i] === s) {
           this.savedSongs.splice(i, 1); 
         }
      }
-      return this.http.put(this.userApiUrl+userID, {
+      return this.http.put(this.userApiUrl+userID, { //update saved songs array for user
         "saved_songs": this.savedSongs
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getSongs()
+        this.getSongs() //refresh to display changed buttons
       })
     })
   }

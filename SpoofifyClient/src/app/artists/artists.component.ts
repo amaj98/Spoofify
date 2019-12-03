@@ -27,9 +27,22 @@ export class ArtistsComponent implements OnInit {
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getArtists(){
-    let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
-      this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
+    if (this.authService.currentUser){
+      let userID : string = this.authService.currentUser.user._id
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{
+        this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
+        return this.http.get(this.artistApiUrl).subscribe(res =>{ //get all artists
+          console.log(JSON.stringify(res))
+          this.artists = JSON.parse(JSON.stringify(res))
+          for (let a of this.artists){ //loop through all artists
+            this.http.get(this.artistApiUrl+a.artist).subscribe(res =>{ //change artist ID to artist name
+              a.artist = JSON.parse(JSON.stringify(res)).name
+            })
+          }
+        });
+      });
+    }
+    else{
       return this.http.get(this.artistApiUrl).subscribe(res =>{ //get all artists
         console.log(JSON.stringify(res))
         this.artists = JSON.parse(JSON.stringify(res))
@@ -39,37 +52,37 @@ export class ArtistsComponent implements OnInit {
           })
         }
       });
-    });
+    }
   }
 
   saveArtist(a : string){     
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
       this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
-      this.savedArtists.push(a)
-      return this.http.put(this.userApiUrl+userID, {
+      this.savedArtists.push(a) //add saved artist to array
+      return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
         "saved_artists": this.savedArtists
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getArtists()
+        this.getArtists() //refresh to display changed buttons
       })
     })
   }
 
   removeArtist(a : string){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
       this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
-      for( var i = 0; i < this.savedArtists.length; i++){ 
+      for( var i = 0; i < this.savedArtists.length; i++){ //remove artist from array
         if ( this.savedArtists[i] === a) {
           this.savedArtists.splice(i, 1); 
         }
      }
-      return this.http.put(this.userApiUrl+userID, {
+      return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
         "saved_artists": this.savedArtists
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getArtists()
+        this.getArtists() //refresh to display changed buttons
       })
     })
   }

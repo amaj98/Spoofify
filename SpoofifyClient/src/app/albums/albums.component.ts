@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { FormGroup } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router'
 
 @Component({
@@ -28,10 +26,23 @@ export class AlbumsComponent implements OnInit {
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getAlbums(){
-    let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
-      this.savedAlbums = JSON.parse(JSON.stringify(res)).saved_albums
-      this.http.get(this.albumApiUrl).subscribe(res =>{ //get all albums
+    if (this.authService.currentUser){
+      let userID : string = this.authService.currentUser.user._id
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved albums for user
+        this.savedAlbums = JSON.parse(JSON.stringify(res)).saved_albums
+        return this.http.get(this.albumApiUrl).subscribe(res =>{ //get all albums
+          console.log(JSON.stringify(res))
+          this.albums = JSON.parse(JSON.stringify(res))
+          for (let a of this.albums){ //loop through all albums
+            this.http.get(this.artistApiUrl+a.artist).subscribe(res =>{ //change artist ID to artist name
+              a.artist = JSON.parse(JSON.stringify(res)).name
+            })
+          }
+        } );
+      });
+    }
+    else{
+      return this.http.get(this.albumApiUrl).subscribe(res =>{ //get all albums
         console.log(JSON.stringify(res))
         this.albums = JSON.parse(JSON.stringify(res))
         for (let a of this.albums){ //loop through all albums
@@ -39,39 +50,38 @@ export class AlbumsComponent implements OnInit {
             a.artist = JSON.parse(JSON.stringify(res)).name
           })
         }
-        return this.albums;
       } );
-    });
+    }
   }
 
   saveAlbum(a : string){     
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved albums for user
       this.savedAlbums = JSON.parse(JSON.stringify(res)).saved_albums
-      this.savedAlbums.push(a)
-      return this.http.put(this.userApiUrl+userID, {
+      this.savedAlbums.push(a) //add album to array
+      return this.http.put(this.userApiUrl+userID, { //update saved albums array for user
         "saved_albums": this.savedAlbums
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getAlbums()
+        this.getAlbums() //refresh to display changed buttons
       })
     })
   }
 
   removeAlbum(a : string){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{
+    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved albums for a user
       this.savedAlbums = JSON.parse(JSON.stringify(res)).saved_albums
-      for( var i = 0; i < this.savedAlbums.length; i++){ 
+      for( var i = 0; i < this.savedAlbums.length; i++){ //remove album from array
         if ( this.savedAlbums[i] === a) {
           this.savedAlbums.splice(i, 1); 
         }
      }
-      return this.http.put(this.userApiUrl+userID, {
+      return this.http.put(this.userApiUrl+userID, { //update saved albums array for user
         "saved_albums": this.savedAlbums
       }).subscribe(res => {
         console.log(JSON.parse(JSON.stringify(res)))
-        this.getAlbums()
+        this.getAlbums() //refresh to display changed buttons
       })
     })
   }
