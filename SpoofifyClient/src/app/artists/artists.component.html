@@ -14,13 +14,18 @@
               <td>{{artist.followers}}</td>
               <td>{{artist.similarArtists}}</td>
               <td>
-                <div class = "col text-center" *ngIf="!authService.currentUser; else loggedIn">
-                    <button type="button" (click) = "notLoggedIn()" class="btn btn-warning">+</button>
-                </div>
-              </td>
+                  <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
+                    <ng-container *ngIf="!savedArtists.includes(artist._id); else disableButton">
+                      <button type="button" (click) = "saveArtist(artist._id)" class="btn btn-warning">+</button>
+                    </ng-container>
+                  </div>
+                </td>
+                <ng-template #notLoggedIn>
+                    <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
+                </ng-template>
+                <ng-template #disableButton>
+                    <button type="button" (click) = "removeArtist(artist._id)" class="btn btn_warning">✔</button>
+                </ng-template>
             </tr>
           </table>
 </div>
-<ng-template #loggedIn>
-    <button type="button" (click) = "saveArtist()" class="btn btn-warning">+</button>
-</ng-template>

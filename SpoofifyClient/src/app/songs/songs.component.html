@@ -19,13 +19,13 @@
               <td>{{song.plays}}</td>
               <td>
                 <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
-                  <ng-container *ngIf="!currentSaved.includes(song._id) else disableButton">
+                  <ng-container *ngIf="!savedSongs.includes(song._id); else disableButton">
                     <button type="button" (click) = "saveSong(song._id)" class="btn btn-warning">+</button>
                   </ng-container>
                 </div>
               </td>
               <ng-template #notLoggedIn>
-                  <button type="button" (click) = "notLoggedIn()" class="btn btn-warning">+</button>
+                  <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
               </ng-template>
               <ng-template #disableButton>
                   <button type="button" (click) = "removeSong(song._id)" class="btn btn_warning">✔</button>
