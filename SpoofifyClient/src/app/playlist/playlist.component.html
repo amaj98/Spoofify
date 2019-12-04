@@ -1,20 +1,23 @@
 <div class = "col text-center">
-
+    <div class = "col text-center playlist-header">
+          {{playlist.title}}
+    </div>
+  <div class="edit-btn" *ngIf="authService.currentUser && current_user == authService.currentUser.user._id">
+    <button type="button" (click) = "editPlaylist(playlist._id)" class="btn btn-warning">Edit Playlist</button>
+  </div>
     <table style="width:100%" >
-            <tr>
-              <th>Playlist Name</th>
+            <tr *ngIf="playlist">
               <th>Creator</th>
               <th>Followers</th>
               <th>Songs in Playlist</th>
-              <th>Add to Saved Albums</th>
+              <th>Add to Saved Playlists</th>
             </tr>
             <tr *ngIf="playlist">
-              <td>{{playlist.title}}</td>
               <td>{{playlist.creator}}</td>
               <td>{{playlist.followers}}</td>
               <td >
                 <ul *ngFor="let song of playlist.songs">
-                  {{song}}
+                  <a href={{song.spotify}}>{{song.title}}</a>
                 </ul>
               </td>
               <td>
@@ -25,10 +28,12 @@
                   </div>
                 </td>
                 <ng-template #notLoggedIn>
-                    <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
+                    <button type="button" (click) = "displayLogin()" class="btn-add btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removePlaylist(playlist._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removePlaylist(playlist._id)" class="btn-remove btn-warning">
+                        <span>✔</span>
+                    </button>
                 </ng-template>
             </tr>
           </table>

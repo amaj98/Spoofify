@@ -4,13 +4,16 @@
       </div>
     <table style="width:100%" >
             <tr>
-              <th>Artist Name</th>
+              
+              <th>Song Name</th>
               <th>Summary</th>
               <th>Followers</th>
               <th>Add to Saved Artists</th>
             </tr>
             <tr *ngFor="let artist of artists" >
-              <td>{{artist.name}}</td>
+                <td>
+                    <button type="button" (click)="goArtist(artist._id)" class="btn btn-warning">{{artist.name}}</button>
+                </td>
               <td>{{artist.summary}}</td>
               <td>{{artist.followers}}</td>
               <td>
@@ -24,7 +27,9 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removeArtist(artist._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removeArtist(artist._id)" class="btn-remove btn-warning">
+                      <span>✔</span>
+                    </button>
                 </ng-template>
             </tr>
           </table>

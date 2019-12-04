@@ -25,35 +25,61 @@ export class PlaylistComponent implements OnInit {
   playlist : any
   savedPlaylists : string[] = []
   song_names: string[] = []
+  current_user : string
 
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
 
   getPlaylist(refresh : boolean){
-    let playlist_id : string = this.router.url.split('/')[2]
-      return this.http.get(this.playlistApiUrl+playlist_id).subscribe(res =>{ //get playlist
-        console.log(JSON.stringify(res))
-        this.playlist = JSON.parse(JSON.stringify(res))
-        this.http.get(this.userApiUrl+this.playlist.creator).subscribe(res =>{ //change user ID to user name
-          this.playlist.creator = JSON.parse(JSON.stringify(res)).user
-          if(this.playlist.songs.length != 0 && !refresh){ //check if playlist has songs
-            for(let s of this.playlist.songs){ //format songs to display titles
-              this.formatSong(s)
+    if (this.authService.currentUser){
+      let userID : string = this.authService.currentUser.user._id
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for user
+        this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
+        let playlist_id : string = this.router.url.split('/')[2]
+        return this.http.get(this.playlistApiUrl+playlist_id).subscribe(res =>{ //get playlist
+          console.log(JSON.stringify(res))
+          this.playlist = JSON.parse(JSON.stringify(res))
+          this.http.get(this.userApiUrl+this.playlist.creator).subscribe(res =>{ //change user ID to user name
+            this.current_user = this.playlist.creator
+            this.playlist.creator = JSON.parse(JSON.stringify(res)).user
+            if(this.playlist.songs.length != 0 && !refresh){ //check if playlist has songs
+              for(let s of this.playlist.songs){ //format songs to display titles
+                this.formatSong(s)
+              }
             }
-          }
-          else{ //if refreshing, dont re-fetch song titles
-            this.playlist.songs = this.song_names
-          }
-        })
+            else{ //if refreshing, dont re-fetch song titles
+              this.playlist.songs = this.song_names
+            }
+          })
+        });
       });
+    }
+    else{
+      let playlist_id : string = this.router.url.split('/')[2]
+        return this.http.get(this.playlistApiUrl+playlist_id).subscribe(res =>{ //get playlist
+          console.log(JSON.stringify(res))
+          this.playlist = JSON.parse(JSON.stringify(res))
+          this.http.get(this.userApiUrl+this.playlist.creator).subscribe(res =>{ //change user ID to user name
+            this.current_user = this.playlist.creator
+            this.playlist.creator = JSON.parse(JSON.stringify(res)).user
+            if(this.playlist.songs.length != 0 && !refresh){ //check if playlist has songs
+              for(let s of this.playlist.songs){ //format songs to display titles
+                this.formatSong(s)
+              }
+            }
+            else{ //if refreshing, dont re-fetch song titles
+              this.playlist.songs = this.song_names
+            }
+          })
+        });
+    }
   }
 
   formatSong(song: string){
     return this.http.get(this.songApiUrl+song).subscribe(res =>{ //change song ID to song name
-      this.playlist.songs = this.song_names.concat(JSON.parse(JSON.stringify(res)).title)
-      this.song_names.push(JSON.parse(JSON.stringify(res)).title)
+      this.playlist.songs = this.song_names.concat(JSON.parse(JSON.stringify(res)))
+      this.song_names.push(JSON.parse(JSON.stringify(res)))
     })
-
   }
 
   savePlaylist(p : string){     

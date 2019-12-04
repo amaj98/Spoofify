@@ -8,8 +8,12 @@
               <th>Add to Saved Albums</th>
             </tr>
             <tr *ngFor="let album of albums" >
-              <td>{{album.title}}</td>
-              <td>{{album.artist}}</td>
+              <td>
+                  <button type="button" (click)="goAlbum(album._id)" class="btn btn-warning">{{album.title}}</button>
+              </td>
+              <td>
+                <a href={{album.artist.spotify}}>{{album.artist.name}}</a>
+              </td>
               <td>{{album.genre}}</td>
               <td>
                   <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
@@ -22,7 +26,9 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removeAlbum(album._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removeAlbum(album._id)" class="btn-remove btn-warning">
+                      <span>✔</span>
+                    </button>
                 </ng-template>
             </tr>
           </table>

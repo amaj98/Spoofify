@@ -11,6 +11,7 @@ exports.SongSchema = new Schema({
     duration: { type: Number, required: "song length in seconds" },
     features: { type: [String] },
     plays: { type: Number, required: "number of plays" },
+    spotify: { type: String, required: "Spotify Link" },
     title: { type: String, required: "song title" }
 });
 //# sourceMappingURL=song.js.map

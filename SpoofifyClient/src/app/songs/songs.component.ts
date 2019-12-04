@@ -25,8 +25,7 @@ export class SongsComponent implements OnInit {
   userApiUrl: string = 'http://localhost:3000/api/user/'
   songs : any[]
   savedSongs : string[] = []
-  artists = []
-  artists_name: string[] = []
+  feature_names : string[] = []
 
   title: string;
   album: string;
@@ -59,20 +58,6 @@ export class SongsComponent implements OnInit {
     });
   }
 
-  getArtists(){
-    this.http.get(this.artistApiUrl).subscribe(res=>{
-      let json = JSON.parse(JSON.stringify(res));
-      console.log(json);
-      json.forEach(art =>{
-        console.log(this.artists)
-        if(this.artists_name.indexOf(art.name) < 0) {
-          this.artists.push([art.name, art._id]);
-          this.artists_name.push(art.name)
-        }
-      })
-    });
-  }
-
   getSongs(){
     if (this.authService.currentUser){
       let userID : string = this.authService.currentUser.user._id
@@ -82,15 +67,15 @@ export class SongsComponent implements OnInit {
           this.songs = JSON.parse(JSON.stringify(res))
           for (let s of this.songs){ //loop through all songs
             this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
-              s.artist = JSON.parse(JSON.stringify(res)).name
+              s.artist = JSON.parse(JSON.stringify(res))
+              this.feature_names = []
             })
             this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
-              s.album = JSON.parse(JSON.stringify(res)).title
+              s.album = JSON.parse(JSON.stringify(res))
             })
             if(s.features.length != 0){ //check if songs has features
-              let features_names: string[] = []
               for(let f of s.features){
-                features_names = this.formatFeature(f, s, features_names)
+                this.formatFeature(f, s)
               }
             }
             s.duration = this.formatDuration(s.duration)
@@ -103,15 +88,15 @@ export class SongsComponent implements OnInit {
         this.songs = JSON.parse(JSON.stringify(res))
         for (let s of this.songs){ //loop through all songs
           this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
-            s.artist = JSON.parse(JSON.stringify(res)).name
+            s.artist = JSON.parse(JSON.stringify(res))
+            this.feature_names = []
           })
           this.http.get(this.albumApiUrl+s.album).subscribe(res =>{ //change album ID to album name
-            s.album = JSON.parse(JSON.stringify(res)).title
+            s.album = JSON.parse(JSON.stringify(res))
           })
           if(s.features.length != 0){ //check if songs has features
-            let features_names: string[] = []
             for(let f of s.features){
-              features_names = this.formatFeature(f, s, features_names)
+              this.formatFeature(f, s)
             }
           }
           s.duration = this.formatDuration(s.duration)
@@ -121,12 +106,11 @@ export class SongsComponent implements OnInit {
    
   }
 
-  formatFeature(feature: string, s: any, features_names: string[]){
-    this.http.get(this.artistApiUrl+feature).subscribe(res =>{ //change feature ID to feature name
-      features_names.push(JSON.parse(JSON.stringify(res)).name)
-      s.features = features_names
+  formatFeature(feature: string, song : any){
+    return this.http.get(this.artistApiUrl+feature).subscribe(res =>{ //change feature ID to feature name
+      song.features = this.feature_names.concat(JSON.parse(JSON.stringify(res)))
+      this.feature_names.push(JSON.parse(JSON.stringify(res)))
     })
-    return features_names
   }
 
   formatDuration(d : number){
@@ -184,7 +168,6 @@ export class SongsComponent implements OnInit {
 
   ngOnInit() {
     this.getSongs()
-    this.getArtists()
   }
 
 }

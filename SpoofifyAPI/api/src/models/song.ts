@@ -9,6 +9,7 @@ export const SongSchema = new Schema(
         duration: {type: Number, required: "song length in seconds"},
         features: {type: [String]}, // List of IDs of artists who are featured on song
         plays: {type: Number, required: "number of plays"},
+        spotify: {type: String, required: "Spotify Link"},
         title: {type: String, required: "song title"}
     }
 );

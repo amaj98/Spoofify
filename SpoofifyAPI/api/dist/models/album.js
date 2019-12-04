@@ -9,6 +9,7 @@ const Schema = mongoose_1.default.Schema;
 exports.AlbumSchema = new Schema({
     artist: { type: String, required: "ID of artist" },
     genre: { type: String },
+    spotify: { type: String, required: "Spotify Link" },
     title: { type: String, required: "album title" }
 });
 //# sourceMappingURL=album.js.map

@@ -35,7 +35,7 @@ export class AlbumsComponent implements OnInit {
           this.albums = JSON.parse(JSON.stringify(res))
           for (let a of this.albums){ //loop through all albums
             this.http.get(this.artistApiUrl+a.artist).subscribe(res =>{ //change artist ID to artist name
-              a.artist = JSON.parse(JSON.stringify(res)).name
+              a.artist = JSON.parse(JSON.stringify(res))
             })
           }
         } );
@@ -47,7 +47,7 @@ export class AlbumsComponent implements OnInit {
         this.albums = JSON.parse(JSON.stringify(res))
         for (let a of this.albums){ //loop through all albums
           this.http.get(this.artistApiUrl+a.artist).subscribe(res =>{ //change artist ID to artist name
-            a.artist = JSON.parse(JSON.stringify(res)).name
+            a.artist = JSON.parse(JSON.stringify(res))
           })
         }
       } );
@@ -84,6 +84,10 @@ export class AlbumsComponent implements OnInit {
         this.getAlbums() //refresh to display changed buttons
       })
     })
+  }
+
+  goAlbum(a : string){
+    this.router.navigate(['/album/'+a])
   }
 
   displayLogin(){

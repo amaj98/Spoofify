@@ -8,7 +8,7 @@ const Schema = mongoose_1.default.Schema;
 exports.ArtistSchema = new Schema({
     followers: { type: Number },
     name: { type: String, required: "artist name" },
-    similarArtists: { type: [String] },
+    spotify: { type: String, required: "Spotify Link" },
     summary: { type: String } // short description of artist
 });
 //# sourceMappingURL=artist.js.map
