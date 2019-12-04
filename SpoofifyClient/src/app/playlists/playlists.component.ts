@@ -23,8 +23,19 @@ export class PlaylistsComponent implements OnInit {
   playlistApiUrl : string = 'http://localhost:3000/api/playlist/'
   playlists : any[]
   savedPlaylists : string[] = []
+  newname: string;
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
+
+  newPlaylist(){
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log(JSON.stringify(user));
+    if(user) this.http.post(this.playlistApiUrl,{creator:user.user._id,followers:0,title:this.newname}).subscribe(res=>{
+      console.log("playlist created");
+      this.getPlaylists();
+    });
+    else alert("You must be logged in to create a playlist");
+  }
 
   getPlaylists(){
     if (this.authService.currentUser){
