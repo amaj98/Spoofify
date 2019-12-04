@@ -24,7 +24,23 @@ export class ArtistsComponent implements OnInit {
   artists : any[]
   savedArtists : string[] = []
 
+  name: string;
+  summary: string;
+
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
+
+  onSubmit() {
+    let json = {
+      "name":this.name,
+      "summary":this.summary,
+      "followers":0
+    }
+     this.http.get(this.artistApiUrl)
+     
+     this.http.post(this.artistApiUrl, json).subscribe(res => {
+         console.log(JSON.parse(JSON.stringify(res)));
+     });
+   }
 
   getArtists(){
     if (this.authService.currentUser){

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+import * as jq from 'jquery';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-songs',
@@ -23,9 +25,53 @@ export class SongsComponent implements OnInit {
   userApiUrl: string = 'http://localhost:3000/api/user/'
   songs : any[]
   savedSongs : string[] = []
+  artists = []
+  artists_name: string[] = []
 
+  title: string;
+  album: string;
+  artist: string;
+  features: string[] = [];
+  duration: number;
 
-  constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
+  constructor(
+    private router: Router,
+    private http:HttpClient,
+    private authService: AuthService
+  ){ }
+
+ onSubmit() {
+  let modal:HTMLFormElement = document.getElementById("songForm") as HTMLFormElement;
+  console.log("sup");
+  console.log(modal); 
+  
+   let json = {
+     "title":this.title,
+     "album":this.album,
+     "artist":this.artist,
+     "features":this.features,
+     "duration":this.duration,
+     "plays":0
+   }
+    console.log(json);   
+    this.http.post(this.songApiUrl, json).subscribe(res => {
+        console.log(JSON.parse(JSON.stringify(res)));
+    });
+  }
+
+  getArtists(){
+    this.http.get(this.artistApiUrl).subscribe(res=>{
+      let json = JSON.parse(JSON.stringify(res));
+      console.log(json);
+      json.forEach(art =>{
+        console.log(this.artists)
+        if(this.artists_name.indexOf(art.name) < 0) {
+          this.artists.push([art.name, art._id]);
+          this.artists_name.push(art.name)
+        }
+      })
+    });
+  }
 
   getSongs(){
     if (this.authService.currentUser){
@@ -138,6 +184,13 @@ export class SongsComponent implements OnInit {
 
   ngOnInit() {
     this.getSongs()
+    this.getArtists()
   }
 
 }
+
+$('#songFormSub').click(function(e){
+  e.preventDefault();
+  jq('#songForm').modal('hide');
+  
+});

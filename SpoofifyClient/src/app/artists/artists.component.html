@@ -1,5 +1,7 @@
 <div class = "col text-center">
-
+    <div class="text-center">
+        <a href="" class="btn btn-danger btn-rounded mb-4" data-toggle="modal" data-target="#artistForm">Add An Artist</a>
+      </div>
     <table style="width:100%" >
             <tr>
               <th>Artist Name</th>
@@ -26,4 +28,35 @@
                 </ng-template>
             </tr>
           </table>
+</div>
+
+<div class="modal fade" id="artistForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">New Song</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onSubmit()">
+      <div class="modal-body mx-3">
+        <div class="form-group">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <label>Title:</label>
+          <input type="text" id="name" name="name" class="form-control validate" required [(ngModel)]="name">
+        </div>
+        <div class="form-group">
+            <label>Album:</label>
+          <i class="fas fa-lock prefix grey-text"></i>
+          <textarea rows="7" style="resize:none" id="summary" name="summary" class="form-control validate" [(ngModel)]="summary"></textarea>
+        </div>
+      </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button data-dismiss="modal" class="close btn btn-default" type="submit">Add Song</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
