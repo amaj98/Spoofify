@@ -143,6 +143,19 @@ export class ArtistComponent implements OnInit {
     })
   }
 
+  addListen(s : string, plays : number){
+    this.http.put(this.songApiUrl+s, { //update saved songs array for user
+      "plays": plays + 1
+    }).subscribe(res => {
+      console.log(JSON.parse(JSON.stringify(res)))
+      this.getSongs() //refresh to display changed buttons
+    })
+  }
+
+  goAlbum(a : string){
+    this.router.navigate(['/album/'+a])
+  }
+
   displayLogin(){
     if (window.confirm("You must be logged in to save an artist. Press OK to login/register.")){
       this.router.navigate(['/login'])

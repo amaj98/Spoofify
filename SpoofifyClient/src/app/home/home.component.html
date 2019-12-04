@@ -19,18 +19,18 @@
                           <th>Artist</th>
                           <th>Song Duration</th>
                           <th>Number of Plays</th>
-                          <th>Remove from Saved Songs</th>
+                          <th>Remove <br>from <br>Saved <br>Songs</th>
                         </tr>
                         <tr *ngFor="let song of songs" >
                           <td>
-                            <a href={{song.spotify}}>{{song.title}}</a>
+                            <a href={{song.spotify}} (click)="addListen(song._id, song.plays)">{{song.title}}</a>
                           </td>
                           <td>
-                            <a href={{song.album.spotify}}>{{song.album.title}}</a>
-                          </td>
+                              <button type="button" (click)="goAlbum(song.album._id)" class="btn btn-warning">{{song.album.title}}</button>
+                            </td>
                           <td>
-                            <a href={{song.artist.spotify}}>{{song.artist.name}}</a>
-                          </td>
+                              <button type="button" (click)="goArtist(song.artist._id)" class="btn btn-warning">{{song.artist.name}}</button>
+                            </td>
                           <td>{{song.duration}}</td>
                           <td>{{song.plays}}</td>
                           <td>
@@ -49,15 +49,15 @@
                           <th>Album Name</th>
                           <th>Artist</th>
                           <th>Genre</th>
-                          <th>Remove from Saved Albums</th>
+                          <th>Remove <br>from <br>Saved <br>Albums</th>
                         </tr>
                         <tr *ngFor="let album of albums" >
                           <td>
-                            <a href={{album.spotify}}>{{album.title}}</a>
+                              <button type="button" (click)="goAlbum(album._id)" class="btn btn-warning">{{album.title}}</button>
                           </td>
                           <td>
-                            <a href={{album.artist.spotify}}>{{album.artist.name}}</a>
-                          </td>
+                              <button type="button" (click)="goArtist(album.artist._id)" class="btn btn-warning">{{album.artist.name}}</button>
+                            </td>
                           <td>{{album.genre}}</td>
                           <td>
                               <div class = "col text-center">
@@ -77,17 +77,17 @@
                           <th>Artist Name</th>
                           <th>Summary</th>
                           <th>Followers</th>
-                          <th>Remove from Saved Artists</th>
+                          <th>Remove <br>from <br>Saved <br>Artists</th>
                         </tr>
                         <tr *ngFor="let artist of artists" >
                           <td>
-                            <a href={{artist.spotify}}>{{artist.name}}</a>
+                              <button type="button" (click)="goArtist(artist._id)" class="btn btn-warning">{{artist.name}}</button>
                           </td>
                           <td>{{artist.summary}}</td>
                           <td>{{artist.followers}}</td>
                           <td>
                               <div class = "col text-center">
-                                  <button type="button" (click) = "removeArtist(artist._id)" class="btn-remove btn-warning">
+                                  <button type="button" (click) = "removeArtist(artist._id, artist.followers)" class="btn-remove btn-warning">
                                     <span>✔</span>
                                   </button>
                               </div>
@@ -101,7 +101,7 @@
                           <th>Playlist Name</th>
                           <th>Creator</th>
                           <th>Followers</th>
-                          <th>Remove from Saved Playlists</th>
+                          <th>Remove <br>from <br>Saved <br>Playlists</th>
                         </tr>
                         <tr *ngFor="let p of playlists" >
                           <td>
@@ -111,7 +111,7 @@
                           <td>{{p.followers}}</td>
                           <td>
                               <div class = "col text-center">
-                                    <button type="button" (click) = "removePlaylist(playlist._id)" class="btn-remove btn-warning">
+                                    <button type="button" (click) = "removePlaylist(p._id, p.followers)" class="btn-remove btn-warning">
                                             <span>✔</span>
                                     </button>
                               </div>

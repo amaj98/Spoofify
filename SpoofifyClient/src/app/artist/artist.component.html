@@ -4,6 +4,7 @@
       {{artist.name}}
     </a>
   </div>
+  
     <table style="width:100%" >
         <tr>
             <th>Song Title</th>
@@ -14,11 +15,11 @@
           </tr>
           <tr *ngFor="let song of songs" >
             <td>
-              <a href={{song.spotify}}>{{song.title}}</a>
+              <a href={{song.spotify}} (click)="addListen(song._id, song.plays)">{{song.title}}</a>
             </td>
             <td>
-              <a href={{song.album.spotify}}>{{song.album.title}}</a>
-            </td>
+                <button type="button" (click)="goAlbum(song.album._id)" class="btn btn-warning">{{song.album.title}}</button>
+              </td>
             <td>{{song.duration}}</td>
             <td>{{song.plays}}</td>
             <td>
@@ -39,3 +40,4 @@
           </tr>
           </table>
 </div>
+

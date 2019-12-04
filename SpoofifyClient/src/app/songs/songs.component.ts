@@ -190,6 +190,23 @@ export class SongsComponent implements OnInit {
     })
   }
 
+  goAlbum(a : string){
+    this.router.navigate(['/album/'+a])
+  }
+
+  goArtist(a : string){
+    this.router.navigate(['/artist/'+a])
+  }
+
+  addListen(s : string, plays : number){
+    this.http.put(this.songApiUrl+s, { //update saved songs array for user
+      "plays": plays + 1
+    }).subscribe(res => {
+      console.log(JSON.parse(JSON.stringify(res)))
+      this.getSongs() //refresh to display changed buttons
+    })
+  }
+
   displayLogin(){
     if (window.confirm("You must be logged in to save a song. Press OK to login/register.")){
       this.router.navigate(['/login'])
@@ -203,9 +220,3 @@ export class SongsComponent implements OnInit {
   }
 
 }
-
-$('#songFormSub').click(function(e){
-  e.preventDefault();
-  jq('#songForm').modal('hide');
-  
-});

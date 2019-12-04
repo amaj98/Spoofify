@@ -90,6 +90,10 @@ export class AlbumsComponent implements OnInit {
     this.router.navigate(['/album/'+a])
   }
 
+  goArtist(a : string){
+    this.router.navigate(['/artist/'+a])
+  }
+
   displayLogin(){
     if (window.confirm("You must be logged in to save an album. Press OK to login/register.")){
       this.router.navigate(['/login'])
