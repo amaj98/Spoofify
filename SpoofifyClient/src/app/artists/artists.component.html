@@ -8,7 +8,9 @@
               <th>Add to Saved Artists</th>
             </tr>
             <tr *ngFor="let artist of artists" >
-              <td>{{artist.name}}</td>
+              <td>
+                <a href={{artist.spotify}}>{{artist.name}}</a>
+              </td>
               <td>{{artist.summary}}</td>
               <td>{{artist.followers}}</td>
               <td>
@@ -22,7 +24,9 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removeArtist(artist._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removeArtist(artist._id)" class="btn-remove btn-warning">
+                      <span>✔</span>
+                    </button>
                 </ng-template>
             </tr>
           </table>

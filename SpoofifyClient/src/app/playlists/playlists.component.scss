@@ -14,3 +14,11 @@ th {
     color: green;
     background: lightgray;
   }
+
+  .btn-remove:hover span{
+    display:none
+  }
+  
+  .btn-remove:hover:before {
+    content:"❌";
+  }

@@ -24,7 +24,9 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removePlaylist(p._id)" class="btn btn_warning">✔</button>
+                    <button type="button" (click) = "removePlaylist(p._id)" class="btn-remove btn-warning">
+                      <span>✔</span>
+                    </button>
                 </ng-template>
             </tr>
           </table>

@@ -19,3 +19,15 @@ ul {
   list-style: none;
   padding-left: 0;
 }
+
+.edit-btn{
+  padding-bottom: 30px;
+}
+
+.btn-remove:hover span{
+  display:none
+}
+
+.btn-remove:hover:before {
+  content:"❌";
+}
