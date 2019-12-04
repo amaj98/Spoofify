@@ -1,7 +1,7 @@
 <div class = "col text-center">
-  <div class="text-center">
-    <a href="" class="btn btn-danger btn-rounded mb-4" data-toggle="modal" data-target="#songForm">Add A Song</a>
-  </div>
+    <div class="text-center">
+        <a href="" class="btn btn-danger btn-rounded mb-4" data-toggle="modal" data-target="#songForm">Add A Song</a>
+      </div>
     <table id="songTable" style="width:100%" >
             <tr>
               <th>Song Title</th>
@@ -60,6 +60,7 @@
           <input type="text" id="newSongForm-title" name="title" class="form-control validate" required [(ngModel)]="title">
         </div>
         <div class="form-group">
+            <i class="fas fa-lock prefix grey-text"></i>
             <label>Album:</label>
             <select class="selectpicker" id="newSongForm-album" data-live-search="true" data-live-search-style="contains" name="album" class="form-control validate" required [(ngModel)]="album">
                 <option *ngFor="let album of albums" value={{album._id}}>{{album.title}}</option>

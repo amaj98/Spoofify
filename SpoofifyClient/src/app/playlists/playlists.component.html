@@ -1,5 +1,7 @@
 <div class = "col text-center">
-
+    <div class="text-center">
+        <a href="" class="btn btn-danger btn-rounded mb-4" data-toggle="modal" data-target="#playlistForm">Add A Playlist</a>
+      </div>
     <table style="width:100%" >
             <tr>
               <th>Playlist Name</th>
@@ -30,4 +32,30 @@
                 </ng-template>
             </tr>
           </table>
+</div>
+
+<div class="modal fade" id="playlistForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">New Playlist</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onSubmit()">
+      <div class="modal-body mx-3">
+        <div class="form-group">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <label>Title:</label>
+          <input type="text" id="title" name="title" class="form-control validate" required [(ngModel)]="title">
+        </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button class="close btn btn-default" type="submit">Add Playlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -1,17 +1,28 @@
 <div class = "col text-center">
+    <div class = "col text-center playlist-header">
+      {{playlist.title}}
+    </div>
   <div class="edit-btn" *ngIf="authService.currentUser && current_user == authService.currentUser.user._id">
     <button type="button" (click) = "editPlaylist(playlist._id)" class="btn btn-warning">Edit Playlist</button>
   </div>
+  <div class = "col text-center btn-playlist" *ngIf="authService.currentUser; else notLoggedIn">
+      <ng-container *ngIf="!savedPlaylists.includes(playlist._id); else disablePlaylistButton">
+        <button type="button" (click) = "savePlaylist(playlist._id, playlist.followers)" class="btn btn-warning">+</button>
+      </ng-container>
+  </div>
+  <ng-template #disablePlaylistButton>
+      <button type="button" (click) = "removePlaylist(playlist._id, playlist.followers)" class="btn-remove btn-warning">
+          <span>✔</span>
+      </button>
+  </ng-template>
     <table style="width:100%" >
             <tr *ngIf="playlist">
-              <th>Playlist Name</th>
               <th>Creator</th>
               <th>Followers</th>
               <th>Songs in Playlist</th>
               <th>Add to Saved Playlists</th>
             </tr>
             <tr *ngIf="playlist">
-              <td>{{playlist.title}}</td>
               <td>{{playlist.creator}}</td>
               <td>{{playlist.followers}}</td>
               <td >

@@ -4,6 +4,16 @@
       {{artist.name}}
     </a>
   </div>
+  <div class = "col text-center btn-artist" *ngIf="authService.currentUser; else notLoggedIn">
+      <ng-container *ngIf="!savedArtists.includes(artist._id); else disableArtistButton">
+        <button type="button" (click) = "saveArtist(artist._id)" class="btn btn-warning">+</button>
+      </ng-container>
+  </div>
+  <ng-template #disableArtistButton>
+      <button type="button" (click) = "removeArtist(artist._id)" class="btn-remove btn-warning">
+          <span>✔</span>
+      </button>
+  </ng-template>
   
     <table style="width:100%" >
         <tr>

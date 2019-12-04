@@ -1,5 +1,7 @@
 <div class = "col text-center">
-
+    <div class="text-center">
+        <a href="" class="btn btn-danger btn-rounded mb-4" data-toggle="modal" data-target="#albumForm">Add An Album</a>
+      </div>
     <table style="width:100%" >
             <tr>
               <th>Album Name</th>
@@ -32,4 +34,42 @@
                 </ng-template>
             </tr>
           </table>
+</div>
+
+<div class="modal fade" id="albumForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">New Album</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onSubmit()">
+      <div class="modal-body mx-3">
+        <div class="form-group">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <label>Title:</label>
+          <input type="text" id="newSongForm-title" name="title" class="form-control validate" required [(ngModel)]="title">
+        </div>
+        <div class="form-group">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <label>Artist:</label>
+          <select class="selectpicker" id="newSongForm-artist" data-live-search="true" data-live-search-style="contains" name="artist" class="form-control validate" required [(ngModel)]="artist">
+            <option *ngFor="let art of artists" value={{art[1]}}>{{art[0]}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <i class="fas fa-lock prefix grey-text"></i>
+          <label>Genre:</label>
+          <input type="text" id="genre" name="genre" class="form-control validate" [(ngModel)]="genre">
+        </div>      
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <input id="songFormSub" class="btn btn-default" type="submit" value="Add Album">
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
