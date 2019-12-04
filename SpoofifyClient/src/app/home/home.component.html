@@ -17,7 +17,6 @@
                           <th>Song Title</th>
                           <th>Album</th>
                           <th>Artist</th>
-                          <th>Features</th>
                           <th>Song Duration</th>
                           <th>Number of Plays</th>
                           <th>Remove from Saved Songs</th>
@@ -31,11 +30,6 @@
                           </td>
                           <td>
                             <a href={{song.artist.spotify}}>{{song.artist.name}}</a>
-                          </td>
-                          <td>
-                            <ul *ngFor="let feature of song.features">
-                              <a href={{feature.spotify}}>{{feature.name}}</a>
-                            </ul>
                           </td>
                           <td>{{song.duration}}</td>
                           <td>{{song.plays}}</td>

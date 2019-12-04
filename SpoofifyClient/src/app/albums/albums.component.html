@@ -9,7 +9,7 @@
             </tr>
             <tr *ngFor="let album of albums" >
               <td>
-                <a href={{album.spotify}}>{{album.title}}</a>
+                  <button type="button" (click)="goAlbum(album._id)" class="btn btn-warning">{{album.title}}</button>
               </td>
               <td>
                 <a href={{album.artist.spotify}}>{{album.artist.name}}</a>

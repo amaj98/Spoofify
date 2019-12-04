@@ -2,15 +2,16 @@
 
     <table style="width:100%" >
             <tr>
-              <th>Artist Name</th>
+              
+              <th>Song Name</th>
               <th>Summary</th>
               <th>Followers</th>
               <th>Add to Saved Artists</th>
             </tr>
             <tr *ngFor="let artist of artists" >
-              <td>
-                <a href={{artist.spotify}}>{{artist.name}}</a>
-              </td>
+                <td>
+                    <button type="button" (click)="goArtist(artist._id)" class="btn btn-warning">{{artist.name}}</button>
+                </td>
               <td>{{artist.summary}}</td>
               <td>{{artist.followers}}</td>
               <td>

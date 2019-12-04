@@ -1,0 +1,41 @@
+<div class = "col text-center">
+  <div class = "col text-center artist-header">
+    <a href="{{artist.spotify}}">
+      {{artist.name}}
+    </a>
+  </div>
+    <table style="width:100%" >
+        <tr>
+            <th>Song Title</th>
+            <th>Album</th>
+            <th>Song Duration</th>
+            <th>Number of Plays</th>
+            <th>Add to Saved Songs</th>
+          </tr>
+          <tr *ngFor="let song of songs" >
+            <td>
+              <a href={{song.spotify}}>{{song.title}}</a>
+            </td>
+            <td>
+              <a href={{song.album.spotify}}>{{song.album.title}}</a>
+            </td>
+            <td>{{song.duration}}</td>
+            <td>{{song.plays}}</td>
+            <td>
+              <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
+                <ng-container *ngIf="!savedSongs.includes(song._id); else disableButton">
+                  <button type="button" (click) = "saveSong(song._id)" class="btn btn-warning">+</button>
+                </ng-container>
+              </div>
+            </td>
+            <ng-template #notLoggedIn>
+                <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
+            </ng-template>
+            <ng-template #disableButton>
+                <button type="button" (click) = "removeSong(song._id)" class="btn-remove btn-warning">
+                    <span>✔</span>
+                </button>
+            </ng-template>
+          </tr>
+          </table>
+</div>

@@ -93,6 +93,10 @@ export class ArtistsComponent implements OnInit {
     }
   }
 
+  goArtist(a : string){
+    this.router.navigate(['/artist/' + a])
+  }
+
   ngOnInit() {
     this.getArtists()
   }
