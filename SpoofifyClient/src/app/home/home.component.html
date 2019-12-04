@@ -11,7 +11,7 @@
 
 <ng-template #loggedIn>
     <div class="row">
-        <div class = "col-md-6 text-center">
+        <div class = "col-md-6 text-center" style="height:500px; overflow:auto">
                 <table id="songTable" style="width:100%" >
                         <tr>
                           <th>Song Title</th>
@@ -36,14 +36,14 @@
                           <td>
                             <div class = "col text-center">
                                 <button type="button" (click) = "removeSong(song._id)" class="btn-remove btn-warning">
-                                    <span>✔</span>
+                                    <span>❌</span>
                                 </button>
                             </div>
                         </td>
                         </tr>
                       </table>
         </div>
-        <div class = "col-md-6 text-center">
+        <div class = "col-md-6 text-center" style="height:500px; overflow:auto">
                 <table style="width:100%" >
                         <tr>
                           <th>Album Name</th>
@@ -62,7 +62,7 @@
                           <td>
                               <div class = "col text-center">
                                   <button type="button" (click) = "removeAlbum(album._id)" class="btn-remove btn-warning">
-                                    <span>✔</span>
+                                    <span>❌</span>
                                   </button>
                               </div>
                             </td>
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="row">
-        <div class = "col-md-6 text-center">
+        <div class = "col-md-6 text-center" style="height:500px; overflow:auto">
                 <table style="width:100%" >
                         <tr>
                           <th>Artist Name</th>
@@ -88,14 +88,14 @@
                           <td>
                               <div class = "col text-center">
                                   <button type="button" (click) = "removeArtist(artist._id, artist.followers)" class="btn-remove btn-warning">
-                                    <span>✔</span>
+                                    <span>❌</span>
                                   </button>
                               </div>
                             </td>
                         </tr>
                       </table>
         </div>
-        <div class = "col-md-6 text-center">
+        <div class = "col-md-6 text-center" style="height:500px; overflow:auto">
                 <table style="width:100%" >
                         <tr>
                           <th>Playlist Name</th>
@@ -112,7 +112,7 @@
                           <td>
                               <div class = "col text-center">
                                     <button type="button" (click) = "removePlaylist(p._id, p.followers)" class="btn-remove btn-warning">
-                                            <span>✔</span>
+                                            <span>❌</span>
                                     </button>
                               </div>
                             </td>
