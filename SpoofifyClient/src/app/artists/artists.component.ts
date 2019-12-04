@@ -33,13 +33,14 @@ export class ArtistsComponent implements OnInit {
     let json = {
       "name":this.name,
       "summary":this.summary,
-      "followers":0
+      "followers":0,
+      "spotify":""
     }
-     this.http.get(this.artistApiUrl)
      
      this.http.post(this.artistApiUrl, json).subscribe(res => {
          console.log(JSON.parse(JSON.stringify(res)));
-     });
+        this.getArtists();
+        });
    }
 
   getArtists(){
@@ -107,10 +108,6 @@ export class ArtistsComponent implements OnInit {
     if (window.confirm("You must be logged in to save an artist. Press OK to login/register.")){
       this.router.navigate(['/login'])
     }
-  }
-
-  goArtist(a : string){
-    this.router.navigate(['/artist/' + a])
   }
 
   ngOnInit() {

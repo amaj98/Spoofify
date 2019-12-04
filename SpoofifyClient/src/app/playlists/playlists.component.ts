@@ -21,10 +21,38 @@ export class PlaylistsComponent implements OnInit {
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   userApiUrl: string = 'http://localhost:3000/api/user/'
   playlistApiUrl : string = 'http://localhost:3000/api/playlist/'
+  songApiUrl: string = 'http://localhost:3000/api/song/';
   playlists : any[]
   savedPlaylists : string[] = []
+  songs= []
+
+  title: string;
+  songs_: string[] = [];
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
+
+  getSongs() {
+    this.http.get(this.songApiUrl).subscribe(res => {
+      let json = JSON.parse(JSON.stringify(res));
+      for(let song of json) {
+        this.songs.push([song.title,song._id])
+      }
+    });
+  }
+
+  onSubmit() {
+    let json = {
+      "title":this.title,
+      "songs":this.songs_,
+      "followers":0,
+      "creator":this.authService.currentUser.user._id
+    }
+     
+     this.http.post(this.playlistApiUrl, json).subscribe(res => {
+         console.log(JSON.parse(JSON.stringify(res)));
+         this.getPlaylists();
+     });
+   }
 
   getPlaylists(){
     if (this.authService.currentUser){
@@ -98,6 +126,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getSongs()
     this.getPlaylists()
   }
 

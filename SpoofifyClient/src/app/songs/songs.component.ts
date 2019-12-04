@@ -26,6 +26,10 @@ export class SongsComponent implements OnInit {
   songs : any[]
   savedSongs : string[] = []
   feature_names : string[] = []
+  artists = []
+  artist_name = []
+  albums = []
+  album_names = []
 
   title: string;
   album: string;
@@ -50,11 +54,37 @@ export class SongsComponent implements OnInit {
      "artist":this.artist,
      "features":this.features,
      "duration":this.duration,
+     "spotify":"",
      "plays":0
    }
     console.log(json);   
     this.http.post(this.songApiUrl, json).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)));
+      this.getSongs()  
+      console.log(JSON.parse(JSON.stringify(res)));
+    });
+  }
+
+  getArtists() {
+    this.http.get(this.artistApiUrl).subscribe(res => {
+      let json = JSON.parse(JSON.stringify(res));
+      for(let art of json) {
+        if(this.artist_name.indexOf(art.name) < 0) {
+          this.artists.push([art.name,art._id]);
+          this.artist_name.push(art.name);
+        }
+      }
+    });
+  }
+
+  getAlbum() {
+    this.http.get(this.albumApiUrl).subscribe(res => {
+      let json = JSON.parse(JSON.stringify(res));
+      for(let alb of json) {
+        if(this.album_names.indexOf(alb.name) < 0) {
+          this.albums.push([alb.name,alb._id]);
+          this.album_names.push(alb.name);
+        }
+      }
     });
   }
 
@@ -167,7 +197,9 @@ export class SongsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getSongs()
+    this.getArtists();
+    this.getSongs();
+    this.getAlbum();
   }
 
 }

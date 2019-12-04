@@ -60,10 +60,12 @@
           <input type="text" id="newSongForm-title" name="title" class="form-control validate" required [(ngModel)]="title">
         </div>
         <div class="form-group">
+            <i class="fas fa-lock prefix grey-text"></i>
             <label>Album:</label>
-          <i class="fas fa-lock prefix grey-text"></i>
-          <input type="text" id="newSongForm-album" name="album" class="form-control validate" [(ngModel)]="album">
-        </div>
+            <select class="selectpicker" id="newSongForm-album" data-live-search="true" data-live-search-style="contains" name="album" class="form-control validate" required [(ngModel)]="album">
+              <option *ngFor="let alb of albums" value={{alb[1]}}>{{alb[0]}}</option>
+            </select>
+          </div>
         <div class="form-group">
           <i class="fas fa-lock prefix grey-text"></i>
           <label>Artist:</label>
