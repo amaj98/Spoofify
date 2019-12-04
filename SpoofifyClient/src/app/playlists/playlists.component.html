@@ -39,7 +39,7 @@
               <td>
                   <div class = "col text-center" *ngIf="authService.currentUser; else notLoggedIn">
                     <ng-container *ngIf="!savedPlaylists.includes(p._id); else disableButton">
-                      <button type="button" (click) = "savePlaylist(p._id)" class="btn btn-warning">+</button>
+                      <button type="button" (click) = "savePlaylist(p._id, p.followers)" class="btn btn-warning">+</button>
                     </ng-container>
                   </div>
                 </td>
@@ -47,7 +47,7 @@
                     <button type="button" (click) = "displayLogin()" class="btn btn-warning">+</button>
                 </ng-template>
                 <ng-template #disableButton>
-                    <button type="button" (click) = "removePlaylist(p._id)" class="btn-remove btn-warning">
+                    <button type="button" (click) = "removePlaylist(p._id, p.followers)" class="btn-remove btn-warning">
                       <span>✔</span>
                     </button>
                 </ng-template>

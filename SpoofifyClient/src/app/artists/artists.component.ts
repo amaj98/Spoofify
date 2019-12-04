@@ -71,34 +71,42 @@ export class ArtistsComponent implements OnInit {
     }
   }
 
-  saveArtist(a : string){     
+  saveArtist(a : string, followers : number){     
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
-      this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
-      this.savedArtists.push(a) //add saved artist to array
-      return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
-        "saved_artists": this.savedArtists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getArtists() //refresh to display changed buttons
+    this.http.put(this.artistApiUrl+a,{
+      "followers": followers+1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
+        this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
+        this.savedArtists.push(a) //add saved artist to array
+        return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
+          "saved_artists": this.savedArtists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getArtists() //refresh to display changed buttons
+        })
       })
     })
   }
 
-  removeArtist(a : string){
+  removeArtist(a : string, followers : number){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
-      this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
-      for( var i = 0; i < this.savedArtists.length; i++){ //remove artist from array
-        if ( this.savedArtists[i] === a) {
-          this.savedArtists.splice(i, 1); 
-        }
-     }
-      return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
-        "saved_artists": this.savedArtists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getArtists() //refresh to display changed buttons
+    this.http.put(this.artistApiUrl+a,{
+      "followers": followers-1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
+        this.savedArtists = JSON.parse(JSON.stringify(res)).saved_artists
+        for( var i = 0; i < this.savedArtists.length; i++){ //remove artist from array
+          if ( this.savedArtists[i] === a) {
+            this.savedArtists.splice(i, 1); 
+          }
+      }
+        return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
+          "saved_artists": this.savedArtists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getArtists() //refresh to display changed buttons
+        })
       })
     })
   }

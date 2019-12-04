@@ -10,13 +10,13 @@
             </tr>
             <tr *ngFor="let song of songs" >
               <td>
-                <a href={{song.spotify}}>{{song.title}}</a>
+                <a href={{song.spotify}} (click)="addListen(song._id, song.plays)">{{song.title}}</a>
               </td>
               <td>
-                <a href={{song.album.spotify}}>{{song.album.title}}</a>
+                  <button type="button" (click)="goAlbum(song.album._id)" class="btn btn-warning">{{song.album.title}}</button>
               </td>
               <td>
-                <a href={{song.artist.spotify}}>{{song.artist.name}}</a>
+                  <button type="button" (click)="goArtist(song.artist._id)" class="btn btn-warning">{{song.artist.name}}</button>
               </td>
               <td>{{song.duration}}</td>
               <td>{{song.plays}}</td>
