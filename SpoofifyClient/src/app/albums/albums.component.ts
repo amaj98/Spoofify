@@ -22,8 +22,44 @@ export class AlbumsComponent implements OnInit {
   userApiUrl: string = 'http://localhost:3000/api/user/'
   albums : any[]
   savedAlbums : string[] = []
+  artist_name = [];
+  artists = [];
+
+  artist:string;
+  genre:string;
+  title:string;
 
   constructor(private router: Router, private http:HttpClient, private authService: AuthService){}
+
+  getArtists() {
+    this.http.get(this.artistApiUrl).subscribe(res => {
+      let json = JSON.parse(JSON.stringify(res));
+      for(let art of json) {
+        if(this.artist_name.indexOf(art.name) < 0) {
+          this.artists.push([art.name,art._id]);
+          this.artist_name.push(art.name);
+        }
+      }
+    });
+  }
+
+  onSubmit() {
+    let modal:HTMLFormElement = document.getElementById("songForm") as HTMLFormElement;
+    console.log("sup");
+    console.log(modal); 
+    
+     let json = {
+       "title":this.title,
+       "artist":this.artist,
+       "genre":this.genre,
+       "spotify":" "
+     }
+      console.log(json);   
+      this.http.post(this.albumApiUrl, json).subscribe(res => {
+        this.getAlbums()  
+        console.log(JSON.parse(JSON.stringify(res)));
+      });
+    }
 
   getAlbums(){
     if (this.authService.currentUser){
@@ -101,6 +137,7 @@ export class AlbumsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getArtists()
     this.getAlbums()
   }
 
