@@ -121,6 +121,10 @@ export class PlaylistComponent implements OnInit {
     })
   }
 
+  editPlaylist(p : string){
+    this.router.navigate(['/playlist/'+p+"/edit"])
+  }
+
   addListen(s : string, plays : number){
     this.http.put(this.songApiUrl+s, { //update saved songs array for user
       "plays": plays + 1

@@ -1,0 +1,24 @@
+table{
+    border: 1px solid black;
+    width: 100%;
+
+}
+th {
+    height: 50px;
+    background: green;
+    color: white;
+  }
+
+  td {
+    height: 50px;
+    color: green;
+    background: lightgray;
+  }
+
+  .btn-remove:hover span{
+    display:none
+  }
+  
+  .btn-remove:hover:before {
+    content:"❌";
+  }

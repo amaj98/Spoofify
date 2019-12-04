@@ -61,14 +61,15 @@
         </div>
         <div class="form-group">
             <label>Album:</label>
-          <i class="fas fa-lock prefix grey-text"></i>
-          <input type="text" id="newSongForm-album" name="album" class="form-control validate" [(ngModel)]="album">
-        </div>
+            <select class="selectpicker" id="newSongForm-album" data-live-search="true" data-live-search-style="contains" name="album" class="form-control validate" required [(ngModel)]="album">
+                <option *ngFor="let album of albums" value={{album._id}}>{{album.title}}</option>
+              </select>       
+          </div>
         <div class="form-group">
           <i class="fas fa-lock prefix grey-text"></i>
           <label>Artist:</label>
           <select class="selectpicker" id="newSongForm-artist" data-live-search="true" data-live-search-style="contains" name="artist" class="form-control validate" required [(ngModel)]="artist">
-            <option *ngFor="let art of artists" value={{art[1]}}>{{art[0]}}</option>
+            <option *ngFor="let art of artists" value={{art._id}}>{{art.name}}</option>
           </select>
         </div>
         <div class="form-group">
@@ -80,7 +81,7 @@
           <i class="fas fa-lock prefix grey-text"></i>
           <label>Duration (seconds):</label>
           <input type="text" id="newSongForm-duration" name="duration" class="form-control validate" [(ngModel)]="duration">
-        </div>        
+        </div>         
         </div>
         <div class="modal-footer d-flex justify-content-center">
           <input id="songFormSub" class="btn btn-default" type="submit" value="Add Song">

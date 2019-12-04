@@ -24,6 +24,8 @@ export class SongsComponent implements OnInit {
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   userApiUrl: string = 'http://localhost:3000/api/user/'
   songs : any[]
+  artists : any[]
+  albums: any[]
   savedSongs : string[] = []
   feature_names : string[] = []
 
@@ -32,6 +34,7 @@ export class SongsComponent implements OnInit {
   artist: string;
   features: string[] = [];
   duration: number;
+  spotify: string;
 
   constructor(
     private router: Router,
@@ -41,7 +44,6 @@ export class SongsComponent implements OnInit {
 
  onSubmit() {
   let modal:HTMLFormElement = document.getElementById("songForm") as HTMLFormElement;
-  console.log("sup");
   console.log(modal); 
   
    let json = {
@@ -50,7 +52,8 @@ export class SongsComponent implements OnInit {
      "artist":this.artist,
      "features":this.features,
      "duration":this.duration,
-     "plays":0
+     "plays":0,
+     "spotify": " " 
    }
     console.log(json);   
     this.http.post(this.songApiUrl, json).subscribe(res => {
@@ -65,6 +68,12 @@ export class SongsComponent implements OnInit {
         this.savedSongs = JSON.parse(JSON.stringify(res)).saved_songs //get saved songs for a user
         return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
           this.songs = JSON.parse(JSON.stringify(res))
+          this.http.get(this.artistApiUrl).subscribe(res => {
+            this.artists = JSON.parse(JSON.stringify(res))
+          })
+          this.http.get(this.albumApiUrl).subscribe(res =>{
+            this.albums = JSON.parse(JSON.stringify(res))
+          })
           for (let s of this.songs){ //loop through all songs
             this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
               s.artist = JSON.parse(JSON.stringify(res))
@@ -86,6 +95,12 @@ export class SongsComponent implements OnInit {
     else{
       return this.http.get(this.songApiUrl).subscribe(res =>{ //get all songs
         this.songs = JSON.parse(JSON.stringify(res))
+        this.http.get(this.artistApiUrl).subscribe(res => {
+          this.artists = JSON.parse(JSON.stringify(res))
+        })
+        this.http.get(this.albumApiUrl).subscribe(res =>{
+          this.albums = JSON.parse(JSON.stringify(res))
+        })
         for (let s of this.songs){ //loop through all songs
           this.http.get(this.artistApiUrl+s.artist).subscribe(res =>{ //change artist ID to artist name
             s.artist = JSON.parse(JSON.stringify(res))

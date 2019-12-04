@@ -111,6 +111,8 @@ export class ArtistsComponent implements OnInit {
     })
   }
 
+  
+
   displayLogin(){
     if (window.confirm("You must be logged in to save an artist. Press OK to login/register.")){
       this.router.navigate(['/login'])
