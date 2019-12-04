@@ -27,7 +27,7 @@
               <td>{{playlist.followers}}</td>
               <td >
                 <ul *ngFor="let song of playlist.songs">
-                  <a href={{song.spotify}} (click)="addListen(song._id, song.plays)">{{song.title}}</a>
+                  <a class="song-text" href={{song.spotify}} (click)="addListen(song._id, song.plays)">{{song.title}}</a>
                 </ul>
               </td>
               <td>
