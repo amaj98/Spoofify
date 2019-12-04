@@ -23,6 +23,7 @@ export class SongsComponent implements OnInit {
   artistApiUrl: string = 'http://localhost:3000/api/artist/';
   albumApiUrl: string = 'http://localhost:3000/api/album/'
   userApiUrl: string = 'http://localhost:3000/api/user/'
+  playlistApiUrl: string = 'http://localhost:3000/api/playlist/';
   songs : any[]
   savedSongs : string[] = []
   feature_names : string[] = []
@@ -32,6 +33,8 @@ export class SongsComponent implements OnInit {
   artist: string;
   features: string[] = [];
   duration: number;
+  pls: Object;
+  songtoAdd: string;
 
   constructor(
     private router: Router,
@@ -127,7 +130,22 @@ export class SongsComponent implements OnInit {
     
     return duration
   }
-
+  addtoPlaylist(s: string){
+    this.songtoAdd = s;
+    let userID : string = this.authService.currentUser.user._id;
+    this.http.get(this.playlistApiUrl+'/user/'+userID).subscribe(res=>{
+      this.pls = res;
+    })
+  }
+  songtoPlaylist(s: string){
+    this.http.get(this.playlistApiUrl+'/'+s).subscribe(res=>{
+      let pl = res;
+      pl["songs"].push(s);
+      this.http.put(this.playlistApiUrl+'/'+s,pl).subscribe(res=>{
+        console.log("added song to playlist");
+      })
+    })
+  }
   saveSong(s : string){     
     let userID : string = this.authService.currentUser.user._id
     this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved songs for a user

@@ -13,8 +13,8 @@ export class PlaylistController {
         });
     }
     public getPlaylistByUser(req: express.Request, res: express.Response): void {
-        Playlist.find({userID: req.params.userID}, (err, playlist) => {
-            if (err) { res.send(err); } else if (playlist) { res.send(playlist); } else { res.send("could not find playlists for given user"); }
+        Playlist.find({creator: req.params.userID}, (err, playlist) => {
+            if (err) { res.send(err); } else if (playlist) { res.send(playlist); } else { res.send({message: "could not find playlists for given user"}); }
         });
     }
     public getPlaylist(req: express.Request, res: express.Response): void {

@@ -18,7 +18,7 @@ class PlaylistController {
         });
     }
     getPlaylistByUser(req, res) {
-        Playlist.find({ userID: req.params.userID }, (err, playlist) => {
+        Playlist.find({ creator: req.params.userID }, (err, playlist) => {
             if (err) {
                 res.send(err);
             }
@@ -26,7 +26,7 @@ class PlaylistController {
                 res.send(playlist);
             }
             else {
-                res.send("could not find playlists for given user");
+                res.send({ message: "could not find playlists for given user" });
             }
         });
     }
