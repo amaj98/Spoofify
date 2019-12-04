@@ -207,38 +207,46 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  removePlaylist(p : string){
+  removePlaylist(p : string, followers : number){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for a user
-      this.playlists = JSON.parse(JSON.stringify(res)).saved_playlists
-      for( var i = 0; i < this.playlists.length; i++){ //remove playlist from array
-        if ( this.playlists[i] === p) {
-          this.playlists.splice(i, 1); 
-        }
-     }
-      return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
-        "saved_playlists": this.playlists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getData() //refresh to display changed buttons
+    this.http.put(this.playlistApiUrl+p,{
+      "followers": followers-1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for a user
+        this.playlists = JSON.parse(JSON.stringify(res)).saved_playlists
+        for( var i = 0; i < this.playlists.length; i++){ //remove playlist from array
+          if ( this.playlists[i] === p) {
+            this.playlists.splice(i, 1); 
+          }
+      }
+        return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
+          "saved_playlists": this.playlists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getData() //refresh to display changed buttons
+        })
       })
     })
   }
 
-  removeArtist(a : string){
+  removeArtist(a : string, followers : number){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
-      this.artists = JSON.parse(JSON.stringify(res)).saved_artists
-      for( var i = 0; i < this.artists.length; i++){ //remove artist from array
-        if ( this.artists[i] === a) {
-          this.artists.splice(i, 1); 
-        }
-     }
-      return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
-        "saved_artists": this.artists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getData() //refresh to display changed buttons
+    this.http.put(this.artistApiUrl+a,{
+      "followers": followers-1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved artists for user
+        this.artists = JSON.parse(JSON.stringify(res)).saved_artists
+        for( var i = 0; i < this.artists.length; i++){ //remove artist from array
+          if ( this.artists[i] === a) {
+            this.artists.splice(i, 1); 
+          }
+      }
+        return this.http.put(this.userApiUrl+userID, { //update saved artists array for user
+          "saved_artists": this.artists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getData() //refresh to display changed buttons
+        })
       })
     })
   }
@@ -261,10 +269,27 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  addListen(s : string, plays : number){
+    this.http.put(this.songApiUrl+s, { //update saved songs array for user
+      "plays": plays + 1
+    }).subscribe(res => {
+      console.log(JSON.parse(JSON.stringify(res)))
+      this.getData() //refresh to display changed buttons
+    })
+  }
+
   ngOnInit() {
     this.getData()
   }
 
+  goAlbum(a : string){
+    this.router.navigate(['/album/' + a])
+  }
+
+  goArtist(a : string){
+    this.router.navigate(['/artist/' + a])
+  }
+  
   goPlaylist(p : string){
     this.router.navigate(['/playlist/' + p])
   }

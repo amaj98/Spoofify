@@ -12,7 +12,7 @@
                   <button type="button" (click)="goAlbum(album._id)" class="btn btn-warning">{{album.title}}</button>
               </td>
               <td>
-                <a href={{album.artist.spotify}}>{{album.artist.name}}</a>
+                  <button type="button" (click)="goArtist(album.artist._id)" class="btn btn-warning">{{album.artist.name}}</button>
               </td>
               <td>{{album.genre}}</td>
               <td>

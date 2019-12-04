@@ -55,34 +55,42 @@ export class PlaylistsComponent implements OnInit {
     }
   }
 
-  savePlaylist(p : string){     
+  savePlaylist(p : string, followers : number){     
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for user
-      this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
-      this.savedPlaylists.push(p) //add playlist to array
-      return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
-        "saved_playlists": this.savedPlaylists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getPlaylists() //refresh to display changed buttons
+    this.http.put(this.playlistApiUrl+p,{
+      "followers": followers+1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for user
+        this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
+        this.savedPlaylists.push(p) //add playlist to array
+        return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
+          "saved_playlists": this.savedPlaylists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getPlaylists() //refresh to display changed buttons
+        })
       })
     })
   }
 
-  removePlaylist(p : string){
+  removePlaylist(p : string, followers : number){
     let userID : string = this.authService.currentUser.user._id
-    this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for a user
-      this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
-      for( var i = 0; i < this.savedPlaylists.length; i++){ //remove playlist from array
-        if ( this.savedPlaylists[i] === p) {
-          this.savedPlaylists.splice(i, 1); 
-        }
-     }
-      return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
-        "saved_playlists": this.savedPlaylists
-      }).subscribe(res => {
-        console.log(JSON.parse(JSON.stringify(res)))
-        this.getPlaylists() //refresh to display changed buttons
+    this.http.put(this.playlistApiUrl+p,{
+      "followers": followers-1
+    }).subscribe(res =>{
+      this.http.get(this.userApiUrl+userID).subscribe(res =>{ //get saved playlists for a user
+        this.savedPlaylists = JSON.parse(JSON.stringify(res)).saved_playlists
+        for( var i = 0; i < this.savedPlaylists.length; i++){ //remove playlist from array
+          if ( this.savedPlaylists[i] === p) {
+            this.savedPlaylists.splice(i, 1); 
+          }
+      }
+        return this.http.put(this.userApiUrl+userID, { //update saved playlists array for user
+          "saved_playlists": this.savedPlaylists
+        }).subscribe(res => {
+          console.log(JSON.parse(JSON.stringify(res)))
+          this.getPlaylists() //refresh to display changed buttons
+        })
       })
     })
   }
